@@ -1,11 +1,17 @@
 "use client";
 
+import { useEffect } from "react";
 import { Canvas } from "@react-three/fiber";
 import { Float, Icosahedron, MeshDistortMaterial } from "@react-three/drei";
 
 // A premium, lightweight 3D centerpiece: a slowly morphing emerald gem inside a faceted
 // wireframe cage. No HDR/network assets, capped DPR, so it stays smooth.
 export default function Hero3D() {
+  // R3F can latch onto the parent's pre-layout size (300x150 default). Nudge a re-measure.
+  useEffect(() => {
+    const t = setTimeout(() => window.dispatchEvent(new Event("resize")), 140);
+    return () => clearTimeout(t);
+  }, []);
   return (
     <Canvas
       dpr={[1, 1.6]}
