@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { QUEUE } from "@/lib/data";
 import type { Decision, RefundRequest } from "@/lib/types";
 
@@ -17,14 +17,14 @@ type Cell = Decision | "loading" | undefined;
 
 function DecisionBody({ d }: { d: Decision }) {
   return (
-    <div className="mt-3 pt-3 border-t border-[var(--line)]">
+    <div className="gk-enter mt-3 pt-3 border-t border-[var(--line)]">
       <div className="text-[13.5px] text-[#dbe3ee]">{d.reasoning}</div>
       <div className="flex items-center gap-2 mt-2">
         <span className="text-[11px] text-[var(--mut)] w-[78px]">confidence</span>
         <div className="gk-bar flex-1">
           <span style={{ width: `${Math.round(d.confidence * 100)}%` }} />
         </div>
-        <span className="text-[11px] text-[var(--mut)] w-[34px] text-right">{Math.round(d.confidence * 100)}%</span>
+        <span className="gk-num text-[11px] text-[var(--mut)] w-[34px] text-right">{Math.round(d.confidence * 100)}%</span>
       </div>
       {d.riskFlags.length > 0 && (
         <div className="flex flex-wrap gap-1.5 mt-2">
@@ -115,7 +115,7 @@ export default function Page() {
   return (
     <main className="max-w-[1100px] mx-auto px-6 py-10">
       <div className="gk-kicker">Qwen · Autopilot Agent · refund &amp; dispute triage</div>
-      <h1 className="text-[44px] leading-[1.04] font-extrabold tracking-tight mt-2">Gatekeeper</h1>
+      <h1 className="gk-title text-[44px] leading-[1.04] font-extrabold tracking-tight mt-2">Gatekeeper</h1>
       <p className="text-[19px] text-[var(--mut)] mt-1 max-w-[42rem]">
         The refund autopilot that knows when to <span className="text-[var(--acc)] font-semibold">stop</span>.
         It clears the routine cases on its own and refuses to act on the risky ones, escalating to a human with its reasoning.
@@ -254,9 +254,28 @@ export default function Page() {
 
 function Stat({ n, label, color }: { n: number; label: string; color: string }) {
   return (
-    <div className="gk-card px-5 py-4">
-      <div className="text-[34px] font-extrabold leading-none" style={{ color }}>{n}</div>
+    <div className="gk-card gk-enter px-5 py-4">
+      <div className="gk-num text-[34px] font-extrabold leading-none" style={{ color }}>
+        <CountUp n={n} />
+      </div>
       <div className="text-[12.5px] text-[var(--mut)] mt-1.5">{label}</div>
     </div>
   );
+}
+
+function CountUp({ n }: { n: number }) {
+  const [v, setV] = useState(0);
+  useEffect(() => {
+    let raf = 0;
+    const start = performance.now();
+    const dur = 550;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - start) / dur);
+      setV(Math.round(p * n));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
+  }, [n]);
+  return <>{v}</>;
 }

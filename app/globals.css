@@ -53,3 +53,49 @@ html, body {
 .gk-label { font-size: 11px; color: var(--mut); margin-bottom: 4px; display: block; letter-spacing: .02em; }
 .spin { width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--acc); border-radius: 50%; animation: gkspin .7s linear infinite; }
 @keyframes gkspin { to { transform: rotate(360deg); } }
+
+/* ---------- polish layer ---------- */
+html, body { text-rendering: optimizeLegibility; }
+
+/* drifting aurora behind everything */
+body::before {
+  content: ""; position: fixed; inset: -10%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(640px 520px at 78% 8%, rgba(61, 220, 151, 0.10), transparent 62%),
+    radial-gradient(560px 460px at 12% 96%, rgba(55, 176, 255, 0.09), transparent 60%);
+  animation: gk-float 20s ease-in-out infinite alternate;
+}
+@keyframes gk-float { from { transform: translate(0, 0); } to { transform: translate(-46px, 34px) scale(1.05); } }
+
+/* gradient hero title */
+.gk-title {
+  background: linear-gradient(180deg, #ffffff 0%, #c2cedd 100%);
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  text-wrap: balance;
+}
+
+/* dynamic numbers: no layout shift */
+.gk-num { font-variant-numeric: tabular-nums; }
+
+/* card depth + hover lift (transform only, so colored edges are untouched) */
+.gk-card { transition: transform .18s cubic-bezier(.2, 0, 0, 1); }
+.gk-card:hover { transform: translateY(-2px); }
+
+/* tactile press */
+.gk-btn { transition: filter .12s, opacity .12s, scale .1s cubic-bezier(.2,0,0,1); }
+.gk-btn:active { scale: 0.96; }
+
+/* animated confidence fill */
+.gk-bar > span { transition: width .6s cubic-bezier(.2, 0, 0, 1); }
+
+/* staggered entrance for decision bodies + stats */
+.gk-enter { animation: gk-rise .42s cubic-bezier(.2, 0, 0, 1) both; }
+@keyframes gk-rise { from { opacity: 0; transform: translateY(8px) scale(.985); filter: blur(3px); } to { opacity: 1; transform: none; filter: none; } }
+
+/* soft pulse on the held-back badge (the money moment) */
+.gk-held { animation: gk-held-pulse 2.6s ease-in-out infinite; }
+@keyframes gk-held-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(245,185,74,0); } 50% { box-shadow: 0 0 18px 0 rgba(245,185,74,.20); } }
+
+@media (prefers-reduced-motion: reduce) {
+  *, body::before { animation: none !important; transition: none !important; }
+}
