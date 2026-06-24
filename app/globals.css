@@ -29,10 +29,11 @@ html, body {
 .gk-bg {
   position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; contain: layout paint size;
   background:
-    radial-gradient(120% 75% at 50% -8%, rgba(124, 58, 237, 0.26), transparent 58%),
-    radial-gradient(70% 46% at 82% 2%, rgba(192, 38, 211, 0.18), transparent 52%),
-    radial-gradient(62% 42% at 14% 6%, rgba(99, 102, 241, 0.16), transparent 55%),
-    linear-gradient(180deg, #0c0824 0%, #08060f 46%, #060409 100%);
+    radial-gradient(125% 80% at 50% -6%, rgba(139, 92, 246, 0.34), transparent 60%),
+    radial-gradient(75% 50% at 84% 0%, rgba(217, 70, 239, 0.22), transparent 54%),
+    radial-gradient(65% 45% at 12% 4%, rgba(99, 102, 241, 0.2), transparent 56%),
+    radial-gradient(95% 60% at 50% 58%, rgba(124, 58, 237, 0.1), transparent 72%),
+    linear-gradient(180deg, #0d0826 0%, #09061a 38%, #070410 70%, #060409 100%);
 }
 .gk-orb { position: absolute; border-radius: 50%; filter: blur(70px); will-change: transform; }
 .gk-grid {
