@@ -25,3 +25,5 @@ Setup: app open at localhost:3000 (or the live Vercel URL). Big browser window. 
 
 ---
 Timing: ~3:05 of narration. If you stumble, re-say the line and trim. The held-back $1,240 card is the shot that has to land, so make sure it is on screen for step 5.
+
+Optional 10-second beat (great for credibility): scroll to the "Try your own request" box, type any scenario, and click Triage this one. It runs live through Qwen, proving it is not canned data. Drop this in right after the money moment if you want.
