@@ -21,12 +21,12 @@ export default function Hero3D() {
         <Icosahedron args={[1.3, 4]}>
           <MeshDistortMaterial
             color="#1c8b5f"
-            roughness={0.22}
-            metalness={0.35}
-            distort={0.34}
-            speed={1.5}
-            emissive="#0a4"
-            emissiveIntensity={0.06}
+            roughness={0.3}
+            metalness={0}
+            distort={0.36}
+            speed={1.6}
+            emissive="#35e6a0"
+            emissiveIntensity={0.55}
           />
         </Icosahedron>
         <Icosahedron args={[1.62, 1]}>

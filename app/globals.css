@@ -28,8 +28,8 @@ html, body {
 .gk-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; contain: layout paint size; }
 .gk-orb { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform; }
 .gk-grid {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.55;
-  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.7;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 34px 34px;
   -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
   mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
