@@ -47,5 +47,9 @@ html, body {
 
 .gk-held { color: var(--amber); border: 1px dashed rgba(245,185,74,.5); background: rgba(245,185,74,.06); border-radius: 9px; padding: 7px 10px; font-size: 12.5px; }
 .gk-flag { font-size: 11px; color: #cdd6e3; background: #0f141c; border: 1px solid var(--line); border-radius: 6px; padding: 2px 7px; }
+.gk-input { background: var(--panel2); border: 1px solid var(--line); border-radius: 9px; padding: 9px 11px; font-size: 13px; color: var(--ink); width: 100%; outline: none; }
+.gk-input:focus { border-color: var(--acc); }
+.gk-input::placeholder { color: #5b6b7e; }
+.gk-label { font-size: 11px; color: var(--mut); margin-bottom: 4px; display: block; letter-spacing: .02em; }
 .spin { width: 16px; height: 16px; border: 2px solid var(--line); border-top-color: var(--acc); border-radius: 50%; animation: gkspin .7s linear infinite; }
 @keyframes gkspin { to { transform: rotate(360deg); } }

@@ -1,4 +1,4 @@
-# Gatekeeper — demo script (~3 min, hard cap from the rules)
+# Gatekeeper demo script (~3 min, hard cap from the rules)
 
 Setup: app open at localhost:3000 (or the live Vercel URL). Big browser window. Mic on. Read naturally.
 
@@ -24,4 +24,4 @@ Setup: app open at localhost:3000 (or the live Vercel URL). Big browser window. 
 "That is Gatekeeper. It clears the routine work and raises its hand on the risky calls. The autopilot you can trust, because it knows its limits. Thanks for watching."
 
 ---
-Timing: ~3:05 of narration. If you stumble, re-say the line and trim. The held-back $1,240 card is the shot that has to land — make sure it is on screen for step 5.
+Timing: ~3:05 of narration. If you stumble, re-say the line and trim. The held-back $1,240 card is the shot that has to land, so make sure it is on screen for step 5.

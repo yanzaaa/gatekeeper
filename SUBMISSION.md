@@ -1,4 +1,4 @@
-# Devpost submission text — Gatekeeper
+# Devpost submission text: Gatekeeper
 
 **Name:** Gatekeeper
 **Tagline:** The refund autopilot that knows when to stop. An autonomous triage agent on Qwen that clears the routine cases and refuses to act on the risky ones.

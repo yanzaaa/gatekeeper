@@ -1,4 +1,4 @@
-# Gatekeeper — the refund autopilot that knows when to stop
+# Gatekeeper: the refund autopilot that knows when to stop
 
 > **Global AI Hackathon Series with Qwen Cloud · Track: Autopilot Agent · built solo with Claude Code.**
 
@@ -25,7 +25,7 @@ The triage call comes from Qwen, but the **restraint guardrail** (`lib/policy.ts
 - amount above the high-value limit → escalate
 - any blocking risk flag (serial-refunder, suspected-fraud, conflicting-evidence, policy-ambiguous) → escalate
 
-So a confidently-wrong model can never auto-action a risky refund. The UI shows exactly when this fires: *"the model proposed approve, Gatekeeper held back and escalated instead."* That is the whole idea — an autopilot you can trust because it knows its limits.
+So a confidently-wrong model can never auto-action a risky refund. The UI shows exactly when this fires: *"the model proposed approve, Gatekeeper held back and escalated instead."* That is the whole idea. An autopilot you can trust because it knows its limits.
 
 ## How it's built
 

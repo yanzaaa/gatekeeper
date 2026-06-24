@@ -7,7 +7,7 @@ For each refund request you decide ONE action: "approve", "deny", or "escalate".
 
 ${REFUND_POLICY}
 
-THE MOST IMPORTANT RULE — know when NOT to act:
+THE MOST IMPORTANT RULE, know when NOT to act:
 You only auto-approve or auto-deny cases that are clear and low-risk. The moment a case is
 risky or uncertain you must ESCALATE it to a human instead of guessing. Escalate when any of
 these are true: the amount is large, the customer looks like a serial refunder or possible fraud,
@@ -125,7 +125,7 @@ export async function triage(r: RefundRequest): Promise<Decision> {
   try {
     const completion = await client.chat.completions.create({
       model: QWEN_MODEL,
-      temperature: 0.2,
+      temperature: 0,
       response_format: { type: "json_object" },
       messages: [
         { role: "system", content: SYSTEM },
@@ -155,7 +155,7 @@ export async function triage(r: RefundRequest): Promise<Decision> {
       confidence,
       reasoning: parsed.reasoning || "(no reasoning returned)",
       riskFlags: restrained.flags,
-      policyBasis: parsed.policyBasis || "—",
+      policyBasis: parsed.policyBasis || "general policy",
       rawAction,
       heldBack: restrained.heldBack,
       engine: "qwen",
@@ -164,6 +164,6 @@ export async function triage(r: RefundRequest): Promise<Decision> {
   } catch {
     // Network/credits/parse failure: fall back so the demo never crashes.
     const fb = fallbackTriage(r);
-    return { ...fb, reasoning: fb.reasoning + " (Qwen unavailable — deterministic fallback used.)" };
+    return { ...fb, reasoning: fb.reasoning + " (Qwen unavailable, deterministic fallback used.)" };
   }
 }

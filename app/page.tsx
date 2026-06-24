@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { QUEUE } from "@/lib/data";
-import type { Decision } from "@/lib/types";
+import type { Decision, RefundRequest } from "@/lib/types";
 
 const fmt = (n: number, c: string) =>
   new Intl.NumberFormat("en-US", { style: "currency", currency: c, maximumFractionDigits: 0 }).format(n);
@@ -15,10 +15,58 @@ const META: Record<string, { label: string; tag: string; edge: string }> = {
 
 type Cell = Decision | "loading" | undefined;
 
+function DecisionBody({ d }: { d: Decision }) {
+  return (
+    <div className="mt-3 pt-3 border-t border-[var(--line)]">
+      <div className="text-[13.5px] text-[#dbe3ee]">{d.reasoning}</div>
+      <div className="flex items-center gap-2 mt-2">
+        <span className="text-[11px] text-[var(--mut)] w-[78px]">confidence</span>
+        <div className="gk-bar flex-1">
+          <span style={{ width: `${Math.round(d.confidence * 100)}%` }} />
+        </div>
+        <span className="text-[11px] text-[var(--mut)] w-[34px] text-right">{Math.round(d.confidence * 100)}%</span>
+      </div>
+      {d.riskFlags.length > 0 && (
+        <div className="flex flex-wrap gap-1.5 mt-2">
+          {d.riskFlags.map((f) => (
+            <span key={f} className="gk-flag">{f}</span>
+          ))}
+        </div>
+      )}
+      {d.heldBack && (
+        <div className="gk-held mt-2">
+          ⚠ The model proposed <b>{d.rawAction}</b>, so Gatekeeper held back and escalated instead. {d.policyBasis}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function Page() {
   const [cells, setCells] = useState<Record<string, Cell>>({});
   const [running, setRunning] = useState(false);
   const [engine, setEngine] = useState<string>();
+
+  // "Try your own" panel state
+  const [form, setForm] = useState({
+    amount: "750",
+    daysSincePurchase: "5",
+    itemCondition: "opened, possibly defective",
+    reason: "It stopped working after a few days.",
+    customerHistory: "first purchase",
+  });
+  const [custom, setCustom] = useState<Cell>();
+
+  async function triage(r: RefundRequest): Promise<Decision | undefined> {
+    const res = await fetch("/api/triage", {
+      method: "POST",
+      headers: { "content-type": "application/json" },
+      body: JSON.stringify({ request: r }),
+    });
+    const { decision } = (await res.json()) as { decision: Decision };
+    if (decision?.engine) setEngine(decision.engine);
+    return decision;
+  }
 
   async function run() {
     setRunning(true);
@@ -26,14 +74,8 @@ export default function Page() {
     for (const r of QUEUE) {
       setCells((c) => ({ ...c, [r.id]: "loading" }));
       try {
-        const res = await fetch("/api/triage", {
-          method: "POST",
-          headers: { "content-type": "application/json" },
-          body: JSON.stringify({ request: r }),
-        });
-        const { decision } = (await res.json()) as { decision: Decision };
-        if (decision?.engine) setEngine(decision.engine);
-        setCells((c) => ({ ...c, [r.id]: decision }));
+        const d = await triage(r);
+        setCells((c) => ({ ...c, [r.id]: d }));
       } catch {
         setCells((c) => ({ ...c, [r.id]: undefined }));
       }
@@ -41,15 +83,37 @@ export default function Page() {
     setRunning(false);
   }
 
+  async function runCustom() {
+    setCustom("loading");
+    const r: RefundRequest = {
+      id: "CUSTOM",
+      customer: "You",
+      orderId: "custom",
+      amount: Number(form.amount) || 0,
+      currency: "USD",
+      category: "Custom",
+      reason: form.reason,
+      daysSincePurchase: Number(form.daysSincePurchase) || 0,
+      itemCondition: form.itemCondition,
+      customerHistory: form.customerHistory,
+    };
+    try {
+      setCustom((await triage(r)) ?? undefined);
+    } catch {
+      setCustom(undefined);
+    }
+  }
+
   const done = Object.values(cells).filter((d): d is Decision => !!d && d !== "loading");
   const auto = done.filter((d) => d.action !== "escalate").length;
   const esc = done.filter((d) => d.action === "escalate").length;
   const held = done.filter((d) => d.heldBack).length;
   const escalated = done.filter((d) => d.action === "escalate");
+  const customDec = custom && custom !== "loading" ? custom : null;
+  const customMeta = customDec ? META[customDec.action] : null;
 
   return (
     <main className="max-w-[1100px] mx-auto px-6 py-10">
-      {/* Header */}
       <div className="gk-kicker">Qwen · Autopilot Agent · refund &amp; dispute triage</div>
       <h1 className="text-[44px] leading-[1.04] font-extrabold tracking-tight mt-2">Gatekeeper</h1>
       <p className="text-[19px] text-[var(--mut)] mt-1 max-w-[42rem]">
@@ -69,7 +133,6 @@ export default function Page() {
         )}
       </div>
 
-      {/* Stats */}
       {done.length > 0 && (
         <div className="grid grid-cols-3 gap-3 mt-6">
           <Stat n={auto} label="auto-resolved" color="var(--acc)" />
@@ -78,7 +141,6 @@ export default function Page() {
         </div>
       )}
 
-      {/* Queue */}
       <h2 className="gk-kicker mt-10 mb-3">The queue</h2>
       <div className="grid md:grid-cols-2 gap-3">
         {QUEUE.map((r) => {
@@ -106,38 +168,12 @@ export default function Page() {
               <div className="text-[13.5px] text-[#cdd6e3] mt-2">&ldquo;{r.reason}&rdquo;</div>
               <div className="text-[12px] text-[var(--mut)] mt-0.5">history: {r.customerHistory}</div>
 
-              {d && (
-                <div className="mt-3 pt-3 border-t border-[var(--line)]">
-                  <div className="text-[13.5px] text-[#dbe3ee]">{d.reasoning}</div>
-                  <div className="flex items-center gap-2 mt-2">
-                    <span className="text-[11px] text-[var(--mut)] w-[78px]">confidence</span>
-                    <div className="gk-bar flex-1">
-                      <span style={{ width: `${Math.round(d.confidence * 100)}%` }} />
-                    </div>
-                    <span className="text-[11px] text-[var(--mut)] w-[34px] text-right">
-                      {Math.round(d.confidence * 100)}%
-                    </span>
-                  </div>
-                  {d.riskFlags.length > 0 && (
-                    <div className="flex flex-wrap gap-1.5 mt-2">
-                      {d.riskFlags.map((f) => (
-                        <span key={f} className="gk-flag">{f}</span>
-                      ))}
-                    </div>
-                  )}
-                  {d.heldBack && (
-                    <div className="gk-held mt-2">
-                      ⚠ The model proposed <b>{d.rawAction}</b> — Gatekeeper held back and escalated instead. {d.policyBasis}
-                    </div>
-                  )}
-                </div>
-              )}
+              {d && <DecisionBody d={d} />}
             </div>
           );
         })}
       </div>
 
-      {/* Human review lane */}
       {escalated.length > 0 && (
         <>
           <h2 className="gk-kicker mt-10 mb-3">Human review queue ({escalated.length})</h2>
@@ -171,6 +207,43 @@ export default function Page() {
           </div>
         </>
       )}
+
+      {/* Try your own */}
+      <h2 className="gk-kicker mt-10 mb-3">Try your own request</h2>
+      <div className={`gk-card p-4 ${customMeta ? customMeta.edge : ""}`}>
+        <p className="text-[13px] text-[var(--mut)] mb-3">
+          Not a canned demo. Type any refund scenario and send it through the live Qwen agent.
+        </p>
+        <div className="grid md:grid-cols-4 gap-2">
+          <div>
+            <label className="gk-label">Amount (USD)</label>
+            <input className="gk-input" value={form.amount} onChange={(e) => setForm({ ...form, amount: e.target.value })} inputMode="numeric" />
+          </div>
+          <div>
+            <label className="gk-label">Days since purchase</label>
+            <input className="gk-input" value={form.daysSincePurchase} onChange={(e) => setForm({ ...form, daysSincePurchase: e.target.value })} inputMode="numeric" />
+          </div>
+          <div className="md:col-span-2">
+            <label className="gk-label">Item condition</label>
+            <input className="gk-input" value={form.itemCondition} onChange={(e) => setForm({ ...form, itemCondition: e.target.value })} />
+          </div>
+          <div className="md:col-span-2">
+            <label className="gk-label">Customer&rsquo;s reason</label>
+            <input className="gk-input" value={form.reason} onChange={(e) => setForm({ ...form, reason: e.target.value })} />
+          </div>
+          <div className="md:col-span-2">
+            <label className="gk-label">Customer history</label>
+            <input className="gk-input" value={form.customerHistory} onChange={(e) => setForm({ ...form, customerHistory: e.target.value })} />
+          </div>
+        </div>
+        <div className="flex items-center gap-3 mt-3">
+          <button className="gk-btn" onClick={runCustom} disabled={custom === "loading"}>
+            {custom === "loading" ? "Thinking…" : "Triage this one"}
+          </button>
+          {customMeta && <span className={`gk-tag ${customMeta.tag}`}>{customMeta.label}</span>}
+        </div>
+        {customDec && <DecisionBody d={customDec} />}
+      </div>
 
       <footer className="text-[12.5px] text-[var(--mut)] mt-12 pt-5 border-t border-[var(--line)]">
         Gatekeeper · built on Qwen (Qwen Cloud) for the Global AI Hackathon · the autopilot you trust because it knows its limits.
