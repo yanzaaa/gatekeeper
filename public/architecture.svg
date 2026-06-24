@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#3ddc97"/>
+    </marker>
+    <style>
+      .box{fill:#11151d;stroke:#222a36;stroke-width:1.5;rx:14}
+      .t{fill:#eef2f7;font-weight:700}
+      .s{fill:#8b97a8;font-size:13px}
+      .k{fill:#3ddc97;font-size:12px;font-weight:800;letter-spacing:.12em}
+      .ln{stroke:#3ddc97;stroke-width:2;fill:none;marker-end:url(#arr)}
+    </style>
+  </defs>
+
+  <rect width="1080" height="560" fill="#0b0e14"/>
+  <text x="44" y="46" class="k">GATEKEEPER · ARCHITECTURE</text>
+  <text x="44" y="74" class="t" font-size="24">The refund autopilot that knows when to stop</text>
+
+  <!-- queue -->
+  <rect class="box" x="44" y="120" width="210" height="150" rx="14"/>
+  <text x="64" y="150" class="t" font-size="16">Refund queue</text>
+  <text x="64" y="176" class="s">Each request: amount,</text>
+  <text x="64" y="196" class="s">item condition, reason,</text>
+  <text x="64" y="216" class="s">days since purchase,</text>
+  <text x="64" y="236" class="s">customer history.</text>
+
+  <!-- agent -->
+  <rect class="box" x="316" y="100" width="250" height="190" rx="14"/>
+  <text x="336" y="130" class="t" font-size="16">Gatekeeper agent</text>
+  <text x="336" y="156" class="s" fill="#37b0ff" font-weight="700">Qwen (Qwen Cloud)</text>
+  <text x="336" y="180" class="s">Reasons over the policy,</text>
+  <text x="336" y="200" class="s">returns a structured call:</text>
+  <text x="336" y="224" class="s" fill="#cdd6e3">action · confidence ·</text>
+  <text x="336" y="244" class="s" fill="#cdd6e3">reasoning · risk flags</text>
+
+  <!-- guardrail -->
+  <rect x="628" y="100" width="250" height="190" rx="14" fill="#11151d" stroke="#f5b94a" stroke-width="1.5"/>
+  <text x="648" y="130" class="t" font-size="16" fill="#f5b94a">Restraint guardrail</text>
+  <text x="648" y="156" class="s">Deterministic safety net.</text>
+  <text x="648" y="180" class="s">Even if the model says</text>
+  <text x="648" y="200" class="s">approve/deny, it is forced</text>
+  <text x="648" y="220" class="s">to ESCALATE when the case</text>
+  <text x="648" y="240" class="s">is high-value, low-confidence,</text>
+  <text x="648" y="260" class="s">or flagged risky.</text>
+
+  <!-- outcomes -->
+  <rect class="box" x="932" y="96" width="118" height="58" rx="12" stroke="#3ddc97"/>
+  <text x="950" y="124" class="t" font-size="14" fill="#3ddc97">Auto-approve</text>
+  <text x="950" y="142" class="s" font-size="11">clear, safe</text>
+
+  <rect class="box" x="932" y="166" width="118" height="58" rx="12" stroke="#ff6b6b"/>
+  <text x="950" y="194" class="t" font-size="14" fill="#ff6b6b">Auto-deny</text>
+  <text x="950" y="212" class="s" font-size="11">clear, safe</text>
+
+  <rect class="box" x="932" y="236" width="118" height="58" rx="12" stroke="#f5b94a"/>
+  <text x="950" y="264" class="t" font-size="14" fill="#f5b94a">Human review</text>
+  <text x="950" y="282" class="s" font-size="11">risky / unsure</text>
+
+  <!-- arrows -->
+  <path class="ln" d="M254 195 L312 195"/>
+  <path class="ln" d="M566 195 L624 195"/>
+  <path class="ln" d="M878 150 L928 125"/>
+  <path class="ln" d="M878 195 L928 195"/>
+  <path class="ln" d="M878 240 L928 265"/>
+
+  <text x="44" y="360" class="k">WHERE THE HUMAN FITS</text>
+  <text x="44" y="388" class="s" font-size="15" fill="#dbe3ee">Humans only ever see the Human review queue. Routine refunds are resolved automatically;</text>
+  <text x="44" y="412" class="s" font-size="15" fill="#dbe3ee">judgment calls land on a person, with the agent's reasoning and risk flags attached.</text>
+
+  <text x="44" y="470" class="k">THE POINT</text>
+  <text x="44" y="498" class="s" font-size="15" fill="#dbe3ee">A confidently-wrong model can never auto-action a risky refund. Restraint is enforced in code,</text>
+  <text x="44" y="522" class="s" font-size="15" fill="#dbe3ee">not just requested in a prompt. An autopilot you can trust because it knows its limits.</text>
+</svg>
