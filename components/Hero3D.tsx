@@ -5,18 +5,20 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import { Icosahedron, Edges } from "@react-three/drei";
 import type { Group } from "three";
 
-// A faceted emerald crystal (low-poly, flat-shaded) with glowing edges, slowly rotating
-// inside a counter-rotating wireframe cage. Geometric and intentional, not a blob.
+// A faceted amethyst crystal (low-poly, flat-shaded) lit by aurora-colored lights,
+// slowly rotating and bobbing inside a counter-rotating wireframe cage.
 function Crystal() {
   const gem = useRef<Group>(null!);
   const cage = useRef<Group>(null!);
-  useFrame((_, dt) => {
+  useFrame((state, dt) => {
+    const t = state.clock.elapsedTime;
     if (gem.current) {
-      gem.current.rotation.y += dt * 0.3;
-      gem.current.rotation.x += dt * 0.09;
+      gem.current.rotation.y += dt * 0.28;
+      gem.current.rotation.x += dt * 0.08;
+      gem.current.position.y = Math.sin(t * 0.7) * 0.07;
     }
     if (cage.current) {
-      cage.current.rotation.y -= dt * 0.16;
+      cage.current.rotation.y -= dt * 0.14;
       cage.current.rotation.z += dt * 0.05;
     }
   });
@@ -25,19 +27,19 @@ function Crystal() {
       <group ref={gem}>
         <Icosahedron args={[1.35, 0]}>
           <meshStandardMaterial
-            color="#0f7a52"
+            color="#6d3bef"
             flatShading
-            metalness={0.18}
-            roughness={0.22}
-            emissive="#22b37c"
-            emissiveIntensity={0.28}
+            metalness={0.28}
+            roughness={0.18}
+            emissive="#8b5cff"
+            emissiveIntensity={0.3}
           />
-          <Edges threshold={1} color="#7df7c4" />
+          <Edges threshold={1} color="#e2c4ff" />
         </Icosahedron>
       </group>
       <group ref={cage}>
         <Icosahedron args={[1.82, 0]}>
-          <meshBasicMaterial color="#4fd3a0" wireframe transparent opacity={0.16} />
+          <meshBasicMaterial color="#6ee7ff" wireframe transparent opacity={0.16} />
         </Icosahedron>
       </group>
     </group>
@@ -58,9 +60,10 @@ export default function Hero3D() {
       style={{ pointerEvents: "none", background: "transparent" }}
     >
       <ambientLight intensity={0.5} />
-      <directionalLight position={[4, 5, 4]} intensity={1.7} />
-      <directionalLight position={[-5, -2, -3]} intensity={0.8} color="#38b6ff" />
-      <pointLight position={[2, -3, 3]} intensity={0.9} color="#36e29a" />
+      <directionalLight position={[4, 5, 4]} intensity={1.5} />
+      <pointLight position={[-5, -2, -3]} intensity={1.4} color="#c026d3" />
+      <pointLight position={[3, -3, 3]} intensity={1.1} color="#22d3ee" />
+      <pointLight position={[0, 4, 2]} intensity={0.9} color="#a78bfa" />
       <Crystal />
     </Canvas>
   );

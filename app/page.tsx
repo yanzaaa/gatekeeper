@@ -156,7 +156,7 @@ export default function Page() {
       </div>
       <motion.div variants={container} initial="hidden" animate="show" className="relative z-10">
         <motion.div variants={item}>
-          <span className="gk-eyebrow"><span className="dot" /> Qwen · Autopilot Agent</span>
+          <span className="gk-eyebrow"><span className="dot" /> Qwen Cloud · Autopilot Agent</span>
         </motion.div>
         <motion.h1 variants={item} className="gk-title text-[clamp(52px,9vw,104px)] leading-[0.95] mt-5">
           Gatekeeper
@@ -174,6 +174,12 @@ export default function Page() {
           {engine && (
             <span className="gk-pill">engine: <b className="text-[var(--ink)]">{engine === "qwen" ? "Qwen (live)" : "fallback"}</b></span>
           )}
+        </motion.div>
+        <motion.div variants={item} className="mt-7 gk-lockup">
+          <span className="gk-mark"><span className="gk-glyph" /> Qwen<span className="sub">Cloud</span></span>
+          <span className="gk-x">×</span>
+          <span className="gk-mark gk-mark-dev">Devpost</span>
+          <span className="gk-lockup-label">Autopilot Agent Hackathon</span>
         </motion.div>
       </motion.div>
       </div>
@@ -272,8 +278,15 @@ export default function Page() {
         </div>
       </Reveal>
 
-      <footer className="text-[12.5px] text-[var(--mut)] mt-20 pt-6" style={{ borderTop: "1px solid var(--hair)" }}>
-        Gatekeeper · built on Qwen (Qwen Cloud) for the Global AI Hackathon · the autopilot you trust because it knows its limits.
+      <footer className="mt-20 pt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between" style={{ borderTop: "1px solid var(--hair)" }}>
+        <div className="text-[12.5px] text-[var(--mut)] max-w-[40rem]">
+          Gatekeeper · built on Qwen Cloud for the Qwen × Devpost Autopilot Agent Hackathon · the autopilot you trust because it knows its limits.
+        </div>
+        <div className="gk-lockup self-start md:self-auto">
+          <span className="gk-mark"><span className="gk-glyph" /> Qwen<span className="sub">Cloud</span></span>
+          <span className="gk-x">×</span>
+          <span className="gk-mark gk-mark-dev">Devpost</span>
+        </div>
       </footer>
     </main>
   );
