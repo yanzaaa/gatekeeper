@@ -2,8 +2,11 @@
 
 import { useEffect, useState } from "react";
 import { motion, useMotionValue, useSpring, useTransform } from "framer-motion";
+import dynamic from "next/dynamic";
 import { QUEUE } from "@/lib/data";
 import type { Decision, RefundRequest } from "@/lib/types";
+
+const Hero3D = dynamic(() => import("@/components/Hero3D"), { ssr: false });
 
 const EASE = [0.32, 0.72, 0, 1] as const;
 const fmt = (n: number, c: string) =>
@@ -147,7 +150,11 @@ export default function Page() {
   return (
     <main className="max-w-[1120px] mx-auto px-6 py-20 md:py-28">
       {/* Hero */}
-      <motion.div variants={container} initial="hidden" animate="show">
+      <div className="relative">
+      <div className="pointer-events-none absolute right-[-60px] top-[-80px] hidden lg:block w-[520px] h-[520px] z-0 opacity-90" aria-hidden>
+        <Hero3D />
+      </div>
+      <motion.div variants={container} initial="hidden" animate="show" className="relative z-10">
         <motion.div variants={item}>
           <span className="gk-eyebrow"><span className="dot" /> Qwen · Autopilot Agent</span>
         </motion.div>
@@ -169,6 +176,7 @@ export default function Page() {
           )}
         </motion.div>
       </motion.div>
+      </div>
 
       {/* Stats */}
       {done.length > 0 && (

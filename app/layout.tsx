@@ -24,6 +24,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="gk-orb b" />
           <span className="gk-orb c" />
         </div>
+        <div className="gk-grid" aria-hidden />
         <div className="gk-grain" aria-hidden />
         {children}
       </body>

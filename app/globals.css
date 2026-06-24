@@ -25,8 +25,15 @@ html, body {
 }
 
 /* ---------- ambient backdrop ---------- */
-.gk-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; }
-.gk-orb { position: absolute; border-radius: 50%; filter: blur(90px); }
+.gk-bg { position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden; contain: layout paint size; }
+.gk-orb { position: absolute; border-radius: 50%; filter: blur(64px); will-change: transform; }
+.gk-grid {
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.55;
+  background-image: radial-gradient(rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+  background-size: 34px 34px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
+  mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
+}
 .gk-orb.a { width: 640px; height: 640px; background: #1f7d57; top: -200px; right: -120px; opacity: 0.5; animation: gk-d1 26s var(--ease) infinite alternate; }
 .gk-orb.b { width: 560px; height: 560px; background: #1a5c84; bottom: -220px; left: -150px; opacity: 0.45; animation: gk-d2 31s var(--ease) infinite alternate; }
 .gk-orb.c { width: 440px; height: 440px; background: #3a2f6b; top: 34%; left: 42%; opacity: 0.3; animation: gk-d1 36s var(--ease) infinite alternate; }
@@ -34,7 +41,7 @@ html, body {
 @keyframes gk-d2 { to { transform: translate(72px, -44px) scale(1.08); } }
 
 .gk-grain {
-  position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.045; mix-blend-mode: overlay;
+  position: fixed; inset: 0; z-index: 60; pointer-events: none; opacity: 0.03;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 }
 
