@@ -32,7 +32,7 @@ export default function Hero3D() {
             distort={0.36}
             speed={1.6}
             emissive="#35e6a0"
-            emissiveIntensity={0.55}
+            emissiveIntensity={0.42}
           />
         </Icosahedron>
         <Icosahedron args={[1.62, 1]}>
