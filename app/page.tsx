@@ -151,7 +151,7 @@ export default function Page() {
     <main className="max-w-[1120px] mx-auto px-6 py-20 md:py-28">
       {/* Hero */}
       <div className="relative">
-      <div className="pointer-events-none absolute right-[-110px] top-[-150px] hidden md:block w-[380px] h-[380px] lg:w-[460px] lg:h-[460px] z-0 opacity-[0.55]" aria-hidden>
+      <div className="pointer-events-none absolute right-[-90px] top-[-140px] hidden md:block w-[380px] h-[380px] lg:w-[460px] lg:h-[460px] z-0 opacity-[0.85]" aria-hidden>
         <Hero3D />
       </div>
       <motion.div variants={container} initial="hidden" animate="show" className="relative z-10">
