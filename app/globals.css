@@ -88,8 +88,8 @@ html, body {
    mid-canvas color vivid while giving text headroom (cards are opaque). */
 .gk-veil { position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 42%, rgba(8,4,18,0) 36%, rgba(8,4,18,0.34) 100%),
-    linear-gradient(180deg, rgba(10,5,22,0.4) 0%, rgba(10,5,22,0.2) 26%, rgba(10,5,22,0.16) 50%, rgba(10,5,22,0.22) 76%, rgba(10,5,22,0.42) 100%);
+    radial-gradient(125% 100% at 50% 38%, rgba(4,2,10,0) 28%, rgba(4,2,10,0.55) 100%),
+    linear-gradient(180deg, rgba(5,2,12,0.5) 0%, rgba(5,2,12,0.3) 27%, rgba(5,2,12,0.26) 50%, rgba(5,2,12,0.34) 75%, rgba(5,2,12,0.54) 100%);
 }
 
 @keyframes gk-d1 { to { transform: translate3d(-64px, 52px, 0) scale(1.12); } }
