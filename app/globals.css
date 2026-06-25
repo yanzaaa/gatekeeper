@@ -16,8 +16,9 @@
 
 * { box-sizing: border-box; }
 
+html { background: var(--bg); }
+body { background: transparent; }
 html, body {
-  background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans), system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
