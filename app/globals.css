@@ -34,13 +34,13 @@ html, body {
   position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
   contain: layout paint size; isolation: isolate;
   background:
-    radial-gradient(56% 60% at 22% 18%, rgba(139,71,255,0.92), transparent 60%),
-    radial-gradient(52% 56% at 74% 14%, rgba(236,64,200,0.9), transparent 58%),
-    radial-gradient(52% 58% at 88% 56%, rgba(255,92,150,0.82), transparent 56%),
-    radial-gradient(60% 64% at 20% 78%, rgba(58,96,255,0.9), transparent 60%),
-    radial-gradient(52% 54% at 58% 96%, rgba(214,52,210,0.78), transparent 58%),
-    radial-gradient(44% 46% at 44% 58%, rgba(40,220,225,0.28), transparent 54%),
-    radial-gradient(50% 52% at 50% 40%, rgba(150,90,255,0.5), transparent 60%),
+    radial-gradient(58% 62% at 22% 18%, rgba(139,71,255,0.95), rgba(139,71,255,0) 62%),
+    radial-gradient(54% 58% at 74% 14%, rgba(236,64,200,0.92), rgba(236,64,200,0) 60%),
+    radial-gradient(54% 60% at 88% 56%, rgba(255,92,150,0.85), rgba(255,92,150,0) 58%),
+    radial-gradient(62% 66% at 20% 78%, rgba(58,96,255,0.92), rgba(58,96,255,0) 62%),
+    radial-gradient(54% 56% at 58% 96%, rgba(214,52,210,0.8), rgba(214,52,210,0) 60%),
+    radial-gradient(46% 48% at 44% 58%, rgba(40,220,225,0.34), rgba(40,220,225,0) 56%),
+    radial-gradient(52% 54% at 50% 40%, rgba(150,90,255,0.55), rgba(150,90,255,0) 62%),
     linear-gradient(150deg, #241758 0%, #1b1046 50%, #221558 100%);
 }
 .gk-orb { position: absolute; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform; backface-visibility: hidden; }
