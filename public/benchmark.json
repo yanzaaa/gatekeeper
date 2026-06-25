@@ -1,0 +1,94 @@
+{
+  "note": "Deterministic aggregate over the demo queue (no API key needed; the live Qwen path follows the same guardrail). Shows how much routine work is safely auto-resolved and how often the restraint guardrail fires.",
+  "thresholds": {
+    "highValueAmount": 500,
+    "minConfidence": 0.78,
+    "blockingFlags": [
+      "serial-refunder",
+      "suspected-fraud",
+      "policy-ambiguous",
+      "conflicting-evidence",
+      "chargeback-risk"
+    ]
+  },
+  "cases": 8,
+  "auto_approved": 3,
+  "auto_denied": 2,
+  "escalated": 3,
+  "held_back_by_guardrail": 3,
+  "rows": [
+    {
+      "id": "RF-1001",
+      "rawAction": "approve",
+      "finalAction": "approve",
+      "heldBack": false,
+      "confidence": 0.9,
+      "riskFlags": []
+    },
+    {
+      "id": "RF-1002",
+      "rawAction": "deny",
+      "finalAction": "deny",
+      "heldBack": false,
+      "confidence": 0.85,
+      "riskFlags": [
+        "out-of-window"
+      ]
+    },
+    {
+      "id": "RF-1003",
+      "rawAction": "approve",
+      "finalAction": "escalate",
+      "heldBack": true,
+      "confidence": 0.9,
+      "riskFlags": [
+        "high-value"
+      ]
+    },
+    {
+      "id": "RF-1004",
+      "rawAction": "deny",
+      "finalAction": "escalate",
+      "heldBack": true,
+      "confidence": 0.7,
+      "riskFlags": [
+        "serial-refunder",
+        "conflicting-evidence"
+      ]
+    },
+    {
+      "id": "RF-1005",
+      "rawAction": "approve",
+      "finalAction": "approve",
+      "heldBack": false,
+      "confidence": 0.9,
+      "riskFlags": []
+    },
+    {
+      "id": "RF-1006",
+      "rawAction": "deny",
+      "finalAction": "deny",
+      "heldBack": false,
+      "confidence": 0.85,
+      "riskFlags": []
+    },
+    {
+      "id": "RF-1007",
+      "rawAction": "approve",
+      "finalAction": "escalate",
+      "heldBack": true,
+      "confidence": 0.9,
+      "riskFlags": [
+        "high-value"
+      ]
+    },
+    {
+      "id": "RF-1008",
+      "rawAction": "approve",
+      "finalAction": "approve",
+      "heldBack": false,
+      "confidence": 0.88,
+      "riskFlags": []
+    }
+  ]
+}

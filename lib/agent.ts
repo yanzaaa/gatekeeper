@@ -197,6 +197,10 @@ export async function triage(r: RefundRequest): Promise<Decision> {
       convo.push({ role: "assistant", content: m1.content ?? "", tool_calls: m1.tool_calls });
       for (const tc of m1.tool_calls) {
         if (tc.type === "function" && tc.function.name === "assess_customer_risk") {
+          // We deliberately compute the risk signal from the TRUSTED request fields, not from the
+          // model-supplied tc.function.arguments. This is a security choice: a tool the model can
+          // populate freely could be coerced into poisoning its own risk signal. The model gets a
+          // ground-truth lookup; it cannot fabricate the inputs.
           const result = assessCustomerRisk(r.customerHistory, r.reason, r.itemCondition);
           toolsUsed.push("assess_customer_risk");
           convo.push({ role: "tool", tool_call_id: tc.id, content: JSON.stringify(result) });
