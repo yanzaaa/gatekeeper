@@ -24,4 +24,12 @@ export interface Decision {
   heldBack: boolean;         // true if the restraint guardrail overrode an auto-action to escalate
   engine: "qwen" | "fallback";
   model?: string;
+  toolsUsed?: string[];      // Qwen tools the agent invoked during reasoning (e.g. assess_customer_risk)
+}
+
+// Deterministic signals the agent looks up via a tool call instead of guessing from free text.
+export interface CustomerRisk {
+  priorRefunds: number;
+  serialRefunder: boolean;            // 3+ prior refunds in the recent window
+  reasonConflictsCondition: boolean;  // stated reason contradicts the item's actual condition
 }

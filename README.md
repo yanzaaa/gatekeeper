@@ -19,22 +19,27 @@ A human only ever sees the escalation queue. Everything else is resolved automat
 
 ## The differentiator: restraint enforced in code, not just asked for in a prompt
 
-The triage call comes from Qwen, but the **restraint guardrail** (`lib/policy.ts` + `lib/agent.ts`) is deterministic and sits on top of the model. Even if the model confidently returns `approve` on a $1,200 order or a customer with four refunds this month, the guardrail overrides it to `escalate`:
+The triage call comes from Qwen, but the **restraint guardrail** (`lib/policy.ts` + `lib/agent.ts`) is deterministic and sits on top of the model. Even if the model confidently returns `approve` on the $1,240 TV or a customer with four refunds this month, the guardrail overrides it to `escalate` when any of these hold:
 
-- self-reported confidence below the threshold → escalate
-- amount above the high-value limit → escalate
-- any blocking risk flag (serial-refunder, suspected-fraud, conflicting-evidence, policy-ambiguous) → escalate
+- self-reported **confidence < 0.78** → escalate
+- **amount > $500** (high-value) → escalate
+- any **blocking risk flag** (`serial-refunder`, `suspected-fraud`, `conflicting-evidence`, `policy-ambiguous`, `chargeback-risk`) → escalate
 
-So a confidently-wrong model can never auto-action a risky refund. The UI shows exactly when this fires: *"the model proposed approve, Gatekeeper held back and escalated instead."* That is the whole idea. An autopilot you can trust because it knows its limits.
+The guardrail is a **one-way ratchet**: it can only ever make a decision *safer* (push it to `escalate`), never less safe — it cannot turn an escalate into an auto-action. So a confidently-wrong model can never auto-action a risky refund. The UI shows exactly when this fires: *"the model proposed approve, Gatekeeper held back and escalated instead."* That is the whole idea. An autopilot you can trust because it knows its limits.
 
 ## How it's built
 
-- **Qwen (Qwen Cloud)** is the reasoning engine, called through the OpenAI-compatible endpoint (`https://dashscope-intl.aliyuncs.com/compatible-mode/v1`) with structured JSON output. See `lib/agent.ts`.
-- **The restraint guardrail** (`lib/policy.ts`) is the deterministic safety net that guarantees escalation on risky cases.
+- **Qwen (`qwen-max`) on Qwen Cloud** is the reasoning engine, called through the OpenAI-compatible Alibaba Cloud DashScope endpoint (`https://dashscope-intl.aliyuncs.com/compatible-mode/v1`) with `temperature: 0` and structured JSON output. Proof of Qwen Cloud deployment: [`lib/qwen.ts`](lib/qwen.ts) + the live call in [`lib/agent.ts`](lib/agent.ts).
+- **Tool-calling:** the agent invokes a real Qwen **function call**, `assess_customer_risk`, to fetch deterministic risk signals (prior refunds, serial-refunder status, reason-vs-condition conflict) instead of guessing them from free text. The decision card shows which tool was called.
+- **The restraint guardrail** (`lib/policy.ts` + `applyRestraint` in `lib/agent.ts`) is the deterministic safety net that guarantees escalation on risky cases.
 - **Next.js (App Router) + TypeScript + Tailwind** for the dashboard and the `/api/triage` route.
 - A **key-free deterministic fallback** keeps the app running before the Qwen credits land and if the API is ever unavailable, so the demo never crashes.
 
-This is a **coded agent** (an explicit triage loop in TypeScript) rather than a low-code agent.
+This is a **coded agent** (an explicit generate → tool-call → decide loop in TypeScript) rather than a low-code agent.
+
+## Tests
+
+The safety property is unit-tested. `npm test` (Vitest) pins the guardrail invariants — high-value, low-confidence, and blocking flags all force escalation; a clean case passes through; and an `escalate` is never downgraded to an auto-action — plus end-to-end checks over the demo queue. See [`tests/restraint.test.ts`](tests/restraint.test.ts).
 
 ## Run it locally
 

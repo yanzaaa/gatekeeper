@@ -16,8 +16,8 @@ ACME refund policy (the rules you must apply):
 export const RESTRAINT = {
   // Below this self-reported confidence, do not auto-action. Escalate.
   minConfidence: 0.78,
-  // Money above this needs a human sign-off regardless of how clear the case looks.
-  highValueAmount: 200,
+  // Money above this ($) needs a human sign-off regardless of how clear the case looks.
+  highValueAmount: 500,
   // Risk flags that always force a human review.
   blockingFlags: ["serial-refunder", "suspected-fraud", "policy-ambiguous", "conflicting-evidence", "chargeback-risk"],
-};
+} as const;

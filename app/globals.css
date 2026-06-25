@@ -191,6 +191,8 @@ html, body {
 .gk-held { color: var(--amber); border: 1px dashed rgba(246, 192, 101, 0.5); background: rgba(246, 192, 101, 0.07); border-radius: 11px; padding: 8px 11px; font-size: 12.5px; animation: gk-pulse 2.6s ease-in-out infinite; }
 @keyframes gk-pulse { 0%, 100% { box-shadow: 0 0 0 0 rgba(246, 192, 101, 0); } 50% { box-shadow: 0 0 20px 0 rgba(246, 192, 101, 0.22); } }
 .gk-flag { font-size: 11px; color: #cdd6e3; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hair); border-radius: 7px; padding: 2px 8px; }
+.gk-engine-dot { display: inline-block; width: 6px; height: 6px; border-radius: 50%; background: var(--mut); flex-shrink: 0; }
+.gk-engine-dot[data-engine="qwen"] { background: var(--acc); box-shadow: 0 0 8px rgba(74, 222, 128, 0.55); }
 
 /* ---------- inputs ---------- */
 .gk-input { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--hair); border-radius: 11px; padding: 10px 12px; font-size: 13px; color: var(--ink); width: 100%; outline: none; transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }

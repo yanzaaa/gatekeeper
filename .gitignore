@@ -39,3 +39,13 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# local agent authoring notes (not part of the submission)
+AGENTS.md
+CLAUDE.md
+
+# submission authoring helpers (not part of the product)
+BLOG.md
+BLOG-POST-READY.md
+SUBMIT-PACK.md
+DEMO_SCRIPT.md

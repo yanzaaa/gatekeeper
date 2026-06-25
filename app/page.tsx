@@ -86,6 +86,15 @@ function DecisionBody({ d }: { d: Decision }) {
           ⚠ The model proposed <b>{d.rawAction}</b>, so Gatekeeper held back and escalated instead. {d.policyBasis}
         </div>
       )}
+      <div className="flex flex-wrap items-center gap-x-2 gap-y-1 mt-2.5 text-[11px] text-[var(--mut)]">
+        <span className="inline-flex items-center gap-1.5">
+          <span className="gk-engine-dot" data-engine={d.engine} />
+          {d.engine === "qwen" ? `Reasoned by ${d.model ?? "qwen-max"}` : "deterministic fallback"}
+        </span>
+        {d.toolsUsed && d.toolsUsed.length > 0 && (
+          <span>· tool call: <span className="gk-num">{d.toolsUsed.join(", ")}</span></span>
+        )}
+      </div>
     </motion.div>
   );
 }
