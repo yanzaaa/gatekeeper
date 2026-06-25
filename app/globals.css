@@ -9,7 +9,7 @@
   --approve: #43e5a0;    /* decision: approve (kept green for the demo) */
   --red: #ff7a8c;        /* decision: deny */
   --amber: #f6c065;      /* decision: escalate */
-  --card: rgba(20, 16, 34, 0.7);
+  --card: rgba(17, 13, 30, 0.86);
   --hair: rgba(255, 255, 255, 0.08);
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -89,7 +89,9 @@ html, body {
 /* soft legibility scrim: gentle, mostly at top/bottom edges, keeps the
    mid-canvas color vivid while giving text headroom (cards are opaque). */
 .gk-veil { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(10,5,22,0.2) 0%, rgba(10,5,22,0.02) 24%, rgba(10,5,22,0) 50%, rgba(10,5,22,0.04) 80%, rgba(10,5,22,0.24) 100%);
+  background:
+    radial-gradient(120% 90% at 50% 42%, rgba(8,4,18,0) 36%, rgba(8,4,18,0.34) 100%),
+    linear-gradient(180deg, rgba(10,5,22,0.4) 0%, rgba(10,5,22,0.2) 26%, rgba(10,5,22,0.16) 50%, rgba(10,5,22,0.22) 76%, rgba(10,5,22,0.42) 100%);
 }
 
 @keyframes gk-d1 { to { transform: translate3d(-64px, 52px, 0) scale(1.12); } }
