@@ -39,9 +39,9 @@ This is a **coded agent** (an explicit generate → tool-call → decide loop in
 
 ## Tests & aggregate evidence
 
-The safety property is unit-tested. `npm test` (Vitest) pins the guardrail invariants — high-value, low-confidence, and blocking flags all force escalation; a clean case passes through; and an `escalate` is never downgraded to an auto-action — plus end-to-end checks over the demo queue. See [`tests/restraint.test.ts`](tests/restraint.test.ts).
+The safety property is unit-tested: **26 Vitest assertions** (`npm test`) pin the guardrail invariants — high-value, low-confidence, and blocking flags all force escalation; a clean case passes through; and an `escalate` is never downgraded to an auto-action — plus end-to-end checks over the demo queue. See [`tests/restraint.test.ts`](tests/restraint.test.ts).
 
-Beyond the one $1,240 anecdote, [`public/benchmark.json`](public/benchmark.json) (regenerate with `npx tsx scripts/aggregate.ts`) is a committed aggregate over the whole queue: **8 cases → 5 auto-resolved, 3 escalated, 3 of which the guardrail held back** from a model auto-action. It quantifies how much routine work is cleared and how often restraint fires.
+Beyond the one $1,240 anecdote, [`public/benchmark.json`](public/benchmark.json) (regenerate with `npx tsx scripts/aggregate.ts`) is a committed aggregate over the whole queue: **8 cases → 5 auto-resolved and 3 escalated to a human; each of the 3 escalations was a model auto-action the guardrail held back.** It quantifies how much routine work is cleared and how often restraint fires.
 
 ## Run it locally
 
