@@ -1,15 +1,15 @@
 @import "tailwindcss";
 
 :root {
-  --bg: #0a0613;
+  --bg: #160c32;
   --ink: #f4f2fb;
-  --mut: #9a93b0;
+  --mut: #aaa3bf;
   --acc: #b18cff;        /* brand violet */
   --acc2: #5fe6ff;       /* aurora cyan (used sparingly) */
   --approve: #43e5a0;    /* decision: approve (kept green for the demo) */
   --red: #ff7a8c;        /* decision: deny */
   --amber: #f6c065;      /* decision: escalate */
-  --card: rgba(20, 16, 34, 0.62);
+  --card: rgba(20, 16, 34, 0.7);
   --hair: rgba(255, 255, 255, 0.08);
   --ease: cubic-bezier(0.32, 0.72, 0, 1);
 }
@@ -26,56 +26,62 @@ html, body {
 }
 
 /* ---------- aurora backdrop (fixed layer, no scroll repaint) ----------
-   .gk-bg is viewport-fixed; aurora ribbons are anchored at staggered
-   vertical bands (top -> bottom) so EVERY scroll position sits on flowing
-   violet/magenta/pink light, over a never-flat plum base. */
+   The BACKGROUND ITSELF is a blended aurora mesh: violet / magenta / pink /
+   indigo glows spread across the whole viewport over a deep-purple (never
+   black) base, so the entire site reads as aurora. Ribbons add gentle motion
+   on top; a soft scrim keeps text readable. */
 .gk-bg {
   position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
   contain: layout paint size; isolation: isolate;
-  background: linear-gradient(176deg, #100a28 0%, #0c0820 24%, #0a0613 50%, #0c0820 76%, #0a0714 100%);
+  background:
+    radial-gradient(62% 56% at 15% 12%, rgba(139,92,246,0.78), rgba(139,92,246,0) 64%),
+    radial-gradient(56% 50% at 87% 6%, rgba(192,38,211,0.72), rgba(192,38,211,0) 62%),
+    radial-gradient(60% 56% at 84% 60%, rgba(236,72,153,0.58), rgba(236,72,153,0) 62%),
+    radial-gradient(66% 62% at 8% 80%, rgba(99,102,241,0.6), rgba(99,102,241,0) 66%),
+    radial-gradient(74% 64% at 50% 46%, rgba(168,85,247,0.4), rgba(168,85,247,0) 68%),
+    radial-gradient(92% 74% at 50% 116%, rgba(190,24,170,0.46), rgba(190,24,170,0) 74%),
+    linear-gradient(157deg, #1c1242 0%, #170d36 42%, #1d1040 72%, #160a30 100%);
 }
 .gk-orb { position: absolute; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform; backface-visibility: hidden; }
 .gk-grid {
-  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.55;
+  position: fixed; inset: 0; z-index: -1; pointer-events: none; opacity: 0.5;
   background-image: radial-gradient(rgba(255, 255, 255, 0.06) 1px, transparent 1px);
   background-size: 34px 34px;
-  -webkit-mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
-  mask-image: radial-gradient(ellipse 80% 60% at 50% -4%, #000 26%, transparent 72%);
+  -webkit-mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 78%);
+  mask-image: radial-gradient(ellipse 90% 70% at 50% 0%, #000 30%, transparent 78%);
 }
 
-/* anchor orbs: top pair + a low magenta keep every viewport lit */
-.gk-orb.a { width: 680px; height: 680px; background: #7c3aed; top: -240px; left: -150px; opacity: 0.5; animation: gk-d1 28s var(--ease) infinite alternate; }
-.gk-orb.b { width: 600px; height: 600px; background: #c026d3; top: -160px; right: -160px; opacity: 0.42; animation: gk-d2 34s var(--ease) infinite alternate; }
-.gk-orb.c { width: 560px; height: 560px; background: #d946ef; bottom: -220px; left: 38%; opacity: 0.28; animation: gk-d1 40s var(--ease) infinite alternate; }
+/* anchor orbs add bloom over the mesh */
+.gk-orb.a { width: 680px; height: 680px; background: #8b5cf6; top: -240px; left: -150px; opacity: 0.34; animation: gk-d1 28s var(--ease) infinite alternate; }
+.gk-orb.b { width: 600px; height: 600px; background: #d946ef; top: -160px; right: -160px; opacity: 0.3; animation: gk-d2 34s var(--ease) infinite alternate; }
+.gk-orb.c { width: 560px; height: 560px; background: #ec4899; bottom: -220px; left: 38%; opacity: 0.24; animation: gk-d1 40s var(--ease) infinite alternate; }
 
-/* flowing diagonal aurora ribbons (screen-blended silk). Varied blur for depth,
-   desynced prime-ish durations + negative delays so they never align. */
+/* flowing aurora ribbons (gentle motion over the colored mesh) */
 .gk-aurora { position: absolute; left: -40%; width: 180%; border-radius: 50%; mix-blend-mode: screen; will-change: transform; backface-visibility: hidden; pointer-events: none; }
-.gk-aurora.r1 { top: -18%; height: 62%; opacity: 0.62; filter: blur(64px);
+.gk-aurora.r1 { top: -18%; height: 62%; opacity: 0.4; filter: blur(64px);
   background: linear-gradient(90deg, rgba(124,58,237,0) 0%, rgba(139,92,246,0.85) 30%, rgba(192,38,211,0.9) 60%, rgba(236,72,153,0) 100%);
   transform: rotate(-18deg); animation: gk-rib1 23s var(--ease) -4s infinite alternate; }
-.gk-aurora.r2 { top: 8%; height: 62%; opacity: 0.58; filter: blur(66px);
+.gk-aurora.r2 { top: 8%; height: 62%; opacity: 0.36; filter: blur(66px);
   background: linear-gradient(90deg, rgba(217,70,239,0) 5%, rgba(217,70,239,0.78) 35%, rgba(244,114,182,0.82) 65%, rgba(167,139,250,0) 100%);
   transform: rotate(14deg); animation: gk-rib2 29s var(--ease) -11s infinite alternate; }
-.gk-aurora.r3 { top: 30%; height: 70%; opacity: 0.58; filter: blur(96px);
+.gk-aurora.r3 { top: 30%; height: 70%; opacity: 0.36; filter: blur(96px);
   background: linear-gradient(90deg, rgba(99,102,241,0) 0%, rgba(124,58,237,0.7) 40%, rgba(217,70,239,0.72) 70%, rgba(236,72,153,0) 100%);
   transform: rotate(-12deg); animation: gk-rib3 31s var(--ease) -7s infinite alternate; }
 /* r4 carries the single sparing cyan accent for temperature contrast */
-.gk-aurora.r4 { top: 48%; height: 62%; opacity: 0.56; filter: blur(88px);
+.gk-aurora.r4 { top: 48%; height: 62%; opacity: 0.34; filter: blur(88px);
   background: linear-gradient(90deg, rgba(236,72,153,0) 8%, rgba(236,72,153,0.66) 32%, rgba(95,230,255,0.14) 54%, rgba(192,38,211,0.74) 72%, rgba(139,92,246,0) 100%);
   transform: rotate(16deg); animation: gk-rib4 37s var(--ease) -19s infinite alternate; }
-.gk-aurora.r5 { top: 66%; height: 62%; opacity: 0.56; filter: blur(80px);
+.gk-aurora.r5 { top: 66%; height: 62%; opacity: 0.34; filter: blur(80px);
   background: linear-gradient(90deg, rgba(167,139,250,0) 0%, rgba(139,92,246,0.7) 35%, rgba(217,70,239,0.68) 68%, rgba(244,114,182,0) 100%);
   transform: rotate(-15deg); animation: gk-rib5 41s var(--ease) -3s infinite alternate; }
-.gk-aurora.r6 { top: 82%; height: 58%; opacity: 0.54; filter: blur(92px);
+.gk-aurora.r6 { top: 82%; height: 58%; opacity: 0.32; filter: blur(92px);
   background: linear-gradient(90deg, rgba(192,38,211,0) 6%, rgba(236,72,153,0.6) 40%, rgba(124,58,237,0.58) 72%, rgba(99,102,241,0) 100%);
   transform: rotate(10deg); animation: gk-rib6 43s var(--ease) -23s infinite alternate; }
 
-/* contrast veil: keeps translucent glass cards + white text on safe mid-luminance */
+/* soft legibility scrim: gentle, mostly at top/bottom edges, keeps the
+   mid-canvas color vivid while giving text headroom (cards are opaque). */
 .gk-veil { position: absolute; inset: 0; pointer-events: none;
-  background:
-    radial-gradient(130% 95% at 50% 38%, rgba(0,0,0,0) 42%, rgba(8,5,16,0.4) 100%),
-    linear-gradient(90deg, rgba(8,5,16,0) 0%, rgba(8,5,16,0.14) 33%, rgba(8,5,16,0.18) 50%, rgba(8,5,16,0.14) 67%, rgba(8,5,16,0) 100%);
+  background: linear-gradient(180deg, rgba(10,5,22,0.32) 0%, rgba(10,5,22,0.1) 20%, rgba(10,5,22,0.06) 50%, rgba(10,5,22,0.14) 80%, rgba(10,5,22,0.36) 100%);
 }
 
 @keyframes gk-d1 { to { transform: translate3d(-64px, 52px, 0) scale(1.12); } }
@@ -95,18 +101,18 @@ html, body {
 /* ---------- type ---------- */
 .gk-eyebrow {
   display: inline-flex; align-items: center; gap: 7px;
-  border: 1px solid var(--hair); background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--hair); background: rgba(10, 6, 22, 0.4);
   border-radius: 999px; padding: 5px 13px;
-  font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; color: #cdd6e3;
+  font-size: 10.5px; letter-spacing: 0.22em; text-transform: uppercase; font-weight: 600; color: #dfe3ee;
 }
 .gk-eyebrow .dot { width: 6px; height: 6px; border-radius: 50%; background: var(--acc); box-shadow: 0 0 10px var(--acc); }
 .gk-title {
   font-weight: 800; letter-spacing: -0.04em; text-wrap: balance;
-  background: linear-gradient(176deg, #ffffff 0%, #dccfff 58%, #b9a6ff 100%);
+  background: linear-gradient(176deg, #ffffff 0%, #e6dcff 55%, #c4b2ff 100%);
   -webkit-background-clip: text; background-clip: text; color: transparent;
 }
 .gk-num { font-variant-numeric: tabular-nums; }
-.gk-kicker { color: var(--acc); font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; }
+.gk-kicker { color: #d7c7ff; font-weight: 700; letter-spacing: 0.18em; text-transform: uppercase; font-size: 11px; text-shadow: 0 1px 6px rgba(8, 4, 20, 0.55); }
 .gk-sig {
   font-weight: 700; letter-spacing: -0.01em;
   background: linear-gradient(90deg, var(--acc) 0%, #d946ef 50%, #f472b6 100%);
@@ -116,7 +122,7 @@ html, body {
 /* ---------- hackathon lockup ---------- */
 .gk-lockup {
   display: inline-flex; align-items: center; gap: 12px; flex-wrap: wrap;
-  border: 1px solid var(--hair); background: rgba(255, 255, 255, 0.03);
+  border: 1px solid var(--hair); background: rgba(10, 6, 22, 0.42);
   border-radius: 14px; padding: 9px 15px;
   box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.05);
 }
@@ -160,7 +166,7 @@ html, body {
 }
 .gk-btn:hover .ico { transform: translate(2px, -1px) scale(1.06); }
 
-.gk-pill { border: 1px solid var(--hair); background: rgba(255, 255, 255, 0.03); border-radius: 999px; padding: 7px 14px; font-size: 13px; color: #cdd6e3; }
+.gk-pill { border: 1px solid var(--hair); background: rgba(10, 6, 22, 0.42); border-radius: 999px; padding: 7px 14px; font-size: 13px; color: #dfe3ee; }
 
 /* ---------- decision tags ---------- */
 .gk-tag { display: inline-flex; align-items: center; gap: 6px; border-radius: 999px; padding: 4px 12px; font-size: 12px; font-weight: 700; border: 1px solid; }
@@ -176,7 +182,7 @@ html, body {
 .gk-flag { font-size: 11px; color: #cdd6e3; background: rgba(255, 255, 255, 0.04); border: 1px solid var(--hair); border-radius: 7px; padding: 2px 8px; }
 
 /* ---------- inputs ---------- */
-.gk-input { background: rgba(0, 0, 0, 0.28); border: 1px solid var(--hair); border-radius: 11px; padding: 10px 12px; font-size: 13px; color: var(--ink); width: 100%; outline: none; transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
+.gk-input { background: rgba(0, 0, 0, 0.3); border: 1px solid var(--hair); border-radius: 11px; padding: 10px 12px; font-size: 13px; color: var(--ink); width: 100%; outline: none; transition: border-color 0.3s var(--ease), box-shadow 0.3s var(--ease); }
 .gk-input:focus { border-color: var(--acc); box-shadow: 0 0 0 3px rgba(139, 92, 246, 0.16); }
 .gk-input::placeholder { color: #6a6480; }
 .gk-label { font-size: 11px; color: var(--mut); margin-bottom: 5px; display: block; letter-spacing: 0.02em; }

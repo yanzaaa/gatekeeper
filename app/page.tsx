@@ -161,8 +161,8 @@ export default function Page() {
         <motion.h1 variants={item} className="gk-title text-[clamp(52px,9vw,104px)] leading-[0.95] mt-5">
           Gatekeeper
         </motion.h1>
-        <motion.p variants={item} className="text-[clamp(18px,2.2vw,23px)] text-[var(--mut)] mt-4 max-w-[46rem] leading-[1.5]">
-          The refund autopilot that knows when to <span className="text-[var(--acc)] font-semibold">stop</span>.
+        <motion.p variants={item} className="text-[clamp(18px,2.2vw,23px)] text-[#d3cee0] mt-4 max-w-[46rem] leading-[1.5]">
+          The refund autopilot that knows when to <span className="text-[#e9b3ff] font-semibold">stop</span>.
           It clears the routine cases on its own and refuses to act on the risky ones, escalating to a human with its reasoning.
         </motion.p>
         <motion.div variants={item} className="flex flex-wrap items-center gap-3 mt-9">
