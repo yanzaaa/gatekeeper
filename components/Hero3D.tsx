@@ -20,7 +20,7 @@ function spawn(fresh: boolean): Token {
     x: (Math.random() - 0.5) * 0.66,
     y: (Math.random() - 0.5) * 0.66,
     z: fresh ? -7 - Math.random() * 3 : -3 - Math.random() * 7,
-    speed: 0.72 + Math.random() * 0.55,
+    speed: 0.44 + Math.random() * 0.38,
     risky: Math.random() < 0.42,
     phase: "flow",
     timer: 0,
@@ -56,9 +56,9 @@ function GateScene() {
         else if (t.z > 3.8) { t = tokens[i] = spawn(true); }
       } else if (t.phase === "blocked") {
         t.timer += dt; t.z = 0; blockEnergy += 1;
-        if (t.timer > 0.8) { t.phase = "bounce"; t.timer = 0; }
+        if (t.timer > 1.15) { t.phase = "bounce"; t.timer = 0; }
       } else {
-        t.timer += dt; t.z -= dt * 2.0; blockEnergy += 0.4;
+        t.timer += dt; t.z -= dt * 1.4; blockEnergy += 0.4;
         if (t.z < -3.2) { t = tokens[i] = spawn(true); }
       }
 
@@ -78,7 +78,7 @@ function GateScene() {
         size = 0.21 * (1 + Math.sin(time * 14) * 0.4);
         color = C_BLOCK;
       } else {
-        size = 0.21 * Math.max(0, 1 - t.timer * 0.9);
+        size = 0.21 * Math.max(0, 1 - t.timer * 0.7);
         color = C_BLOCK;
       }
 
@@ -107,8 +107,8 @@ function GateScene() {
       flare.current.scale.set(s, s, s);
     }
     if (gate.current) {
-      gate.current.rotation.z += dt * 0.14;
-      gate.current.rotation.x = Math.sin(time * 0.4) * 0.1;
+      gate.current.rotation.z += dt * 0.09;
+      gate.current.rotation.x = Math.sin(time * 0.28) * 0.1;
     }
   });
 

@@ -23,6 +23,12 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="gk-orb a" />
           <span className="gk-orb b" />
           <span className="gk-orb c" />
+          <span className="gk-mote m1" />
+          <span className="gk-mote m2" />
+          <span className="gk-mote m3" />
+          <span className="gk-mote m4" />
+          <span className="gk-mote m5" />
+          <span className="gk-mote m6" />
           <span className="gk-veil" />
         </div>
         <div className="gk-grid" aria-hidden />
