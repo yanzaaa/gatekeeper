@@ -37,7 +37,7 @@ It is a coded agent, and I built the whole thing solo with Claude Code.
 
 ## Accomplishments that we're proud of
 
-- The guardrail demonstrably catches a confidently-wrong auto-action: on a 1,240 dollar TV, Qwen returned approve at 95 percent confidence, and Gatekeeper held it back and escalated it instead. That moment is visible right in the UI.
+- The guardrail demonstrably catches a confidently-wrong auto-action: on a 1,240 dollar TV, Qwen returned approve at 90 percent confidence, and Gatekeeper held it back and escalated it instead. That moment is visible right in the UI.
 - A real, working, deployed coded agent on Qwen with a clean dashboard, built solo in a single build session.
 - Honest engineering: a deterministic fallback so the demo is crash-proof, and the restraint logic is transparent and auditable.
 
