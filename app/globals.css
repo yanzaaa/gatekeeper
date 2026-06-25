@@ -44,38 +44,38 @@ html, body {
 }
 
 /* anchor orbs: top pair + a low magenta keep every viewport lit */
-.gk-orb.a { width: 680px; height: 680px; background: #7c3aed; top: -240px; left: -150px; opacity: 0.42; animation: gk-d1 28s var(--ease) infinite alternate; }
-.gk-orb.b { width: 600px; height: 600px; background: #c026d3; top: -160px; right: -160px; opacity: 0.34; animation: gk-d2 34s var(--ease) infinite alternate; }
-.gk-orb.c { width: 560px; height: 560px; background: #d946ef; bottom: -220px; left: 38%; opacity: 0.2; animation: gk-d1 40s var(--ease) infinite alternate; }
+.gk-orb.a { width: 680px; height: 680px; background: #7c3aed; top: -240px; left: -150px; opacity: 0.5; animation: gk-d1 28s var(--ease) infinite alternate; }
+.gk-orb.b { width: 600px; height: 600px; background: #c026d3; top: -160px; right: -160px; opacity: 0.42; animation: gk-d2 34s var(--ease) infinite alternate; }
+.gk-orb.c { width: 560px; height: 560px; background: #d946ef; bottom: -220px; left: 38%; opacity: 0.28; animation: gk-d1 40s var(--ease) infinite alternate; }
 
 /* flowing diagonal aurora ribbons (screen-blended silk). Varied blur for depth,
    desynced prime-ish durations + negative delays so they never align. */
 .gk-aurora { position: absolute; left: -40%; width: 180%; border-radius: 50%; mix-blend-mode: screen; will-change: transform; backface-visibility: hidden; pointer-events: none; }
-.gk-aurora.r1 { top: -18%; height: 62%; opacity: 0.5; filter: blur(64px);
+.gk-aurora.r1 { top: -18%; height: 62%; opacity: 0.62; filter: blur(64px);
   background: linear-gradient(90deg, rgba(124,58,237,0) 0%, rgba(139,92,246,0.85) 30%, rgba(192,38,211,0.9) 60%, rgba(236,72,153,0) 100%);
   transform: rotate(-18deg); animation: gk-rib1 23s var(--ease) -4s infinite alternate; }
-.gk-aurora.r2 { top: 8%; height: 62%; opacity: 0.46; filter: blur(66px);
+.gk-aurora.r2 { top: 8%; height: 62%; opacity: 0.58; filter: blur(66px);
   background: linear-gradient(90deg, rgba(217,70,239,0) 5%, rgba(217,70,239,0.78) 35%, rgba(244,114,182,0.82) 65%, rgba(167,139,250,0) 100%);
   transform: rotate(14deg); animation: gk-rib2 29s var(--ease) -11s infinite alternate; }
-.gk-aurora.r3 { top: 30%; height: 70%; opacity: 0.46; filter: blur(96px);
+.gk-aurora.r3 { top: 30%; height: 70%; opacity: 0.58; filter: blur(96px);
   background: linear-gradient(90deg, rgba(99,102,241,0) 0%, rgba(124,58,237,0.7) 40%, rgba(217,70,239,0.72) 70%, rgba(236,72,153,0) 100%);
   transform: rotate(-12deg); animation: gk-rib3 31s var(--ease) -7s infinite alternate; }
 /* r4 carries the single sparing cyan accent for temperature contrast */
-.gk-aurora.r4 { top: 48%; height: 62%; opacity: 0.44; filter: blur(88px);
+.gk-aurora.r4 { top: 48%; height: 62%; opacity: 0.56; filter: blur(88px);
   background: linear-gradient(90deg, rgba(236,72,153,0) 8%, rgba(236,72,153,0.66) 32%, rgba(95,230,255,0.14) 54%, rgba(192,38,211,0.74) 72%, rgba(139,92,246,0) 100%);
   transform: rotate(16deg); animation: gk-rib4 37s var(--ease) -19s infinite alternate; }
-.gk-aurora.r5 { top: 66%; height: 62%; opacity: 0.44; filter: blur(80px);
+.gk-aurora.r5 { top: 66%; height: 62%; opacity: 0.56; filter: blur(80px);
   background: linear-gradient(90deg, rgba(167,139,250,0) 0%, rgba(139,92,246,0.7) 35%, rgba(217,70,239,0.68) 68%, rgba(244,114,182,0) 100%);
   transform: rotate(-15deg); animation: gk-rib5 41s var(--ease) -3s infinite alternate; }
-.gk-aurora.r6 { top: 82%; height: 58%; opacity: 0.42; filter: blur(92px);
+.gk-aurora.r6 { top: 82%; height: 58%; opacity: 0.54; filter: blur(92px);
   background: linear-gradient(90deg, rgba(192,38,211,0) 6%, rgba(236,72,153,0.6) 40%, rgba(124,58,237,0.58) 72%, rgba(99,102,241,0) 100%);
   transform: rotate(10deg); animation: gk-rib6 43s var(--ease) -23s infinite alternate; }
 
 /* contrast veil: keeps translucent glass cards + white text on safe mid-luminance */
 .gk-veil { position: absolute; inset: 0; pointer-events: none;
   background:
-    radial-gradient(120% 90% at 50% 40%, rgba(0,0,0,0) 26%, rgba(8,5,16,0.5) 100%),
-    linear-gradient(90deg, rgba(8,5,16,0) 0%, rgba(8,5,16,0.28) 30%, rgba(8,5,16,0.34) 50%, rgba(8,5,16,0.28) 70%, rgba(8,5,16,0) 100%);
+    radial-gradient(130% 95% at 50% 38%, rgba(0,0,0,0) 42%, rgba(8,5,16,0.4) 100%),
+    linear-gradient(90deg, rgba(8,5,16,0) 0%, rgba(8,5,16,0.14) 33%, rgba(8,5,16,0.18) 50%, rgba(8,5,16,0.14) 67%, rgba(8,5,16,0) 100%);
 }
 
 @keyframes gk-d1 { to { transform: translate3d(-64px, 52px, 0) scale(1.12); } }
