@@ -23,6 +23,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <span className="gk-orb a" />
           <span className="gk-orb b" />
           <span className="gk-orb c" />
+          <span className="gk-aurora r1" />
+          <span className="gk-aurora r2" />
+          <span className="gk-aurora r3" />
+          <span className="gk-aurora r4" />
+          <span className="gk-aurora r5" />
+          <span className="gk-aurora r6" />
+          <span className="gk-veil" />
         </div>
         <div className="gk-grid" aria-hidden />
         <div className="gk-grain" aria-hidden />

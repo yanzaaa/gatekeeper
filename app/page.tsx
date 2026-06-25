@@ -281,6 +281,7 @@ export default function Page() {
       <footer className="mt-20 pt-6 flex flex-col gap-4 md:flex-row md:items-center md:justify-between" style={{ borderTop: "1px solid var(--hair)" }}>
         <div className="text-[12.5px] text-[var(--mut)] max-w-[40rem]">
           Gatekeeper · built on Qwen Cloud for the Qwen × Devpost Autopilot Agent Hackathon · the autopilot you trust because it knows its limits.
+          <span className="block mt-1.5">Designed &amp; built by <span className="gk-sig">Anthony Yanza</span>.</span>
         </div>
         <div className="gk-lockup self-start md:self-auto">
           <span className="gk-mark"><span className="gk-glyph" /> Qwen<span className="sub">Cloud</span></span>
