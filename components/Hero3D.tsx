@@ -65,14 +65,20 @@ function GateScene() {
       let size: number;
       let color: THREE.Color;
       if (t.phase === "flow") {
-        const passing = !t.risky && t.z > -0.5 && t.z < 0.6;
-        size = 0.11 * (passing ? 1.7 : 1);
-        color = C_PASS;
+        if (t.risky) {
+          // risky requests are amber the whole way in, so you see them coming
+          size = 0.12;
+          color = C_BLOCK;
+        } else {
+          const passing = t.z > -0.5 && t.z < 0.6;
+          size = 0.11 * (passing ? 1.7 : 1);
+          color = C_PASS;
+        }
       } else if (t.phase === "blocked") {
-        size = 0.2 * (1 + Math.sin(time * 14) * 0.4);
+        size = 0.21 * (1 + Math.sin(time * 14) * 0.4);
         color = C_BLOCK;
       } else {
-        size = 0.2 * Math.max(0, 1 - t.timer * 0.6);
+        size = 0.21 * Math.max(0, 1 - t.timer * 0.6);
         color = C_BLOCK;
       }
 
