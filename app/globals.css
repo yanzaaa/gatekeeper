@@ -34,14 +34,14 @@ html, body {
   position: fixed; inset: 0; z-index: -2; pointer-events: none; overflow: hidden;
   contain: layout paint size; isolation: isolate;
   background:
-    radial-gradient(72% 62% at 12% 8%, rgba(139,92,246,0.85), rgba(139,92,246,0) 66%),
-    radial-gradient(64% 56% at 92% 2%, rgba(217,70,239,0.82), rgba(217,70,239,0) 62%),
-    radial-gradient(58% 56% at 95% 50%, rgba(236,72,153,0.64), rgba(236,72,153,0) 60%),
-    radial-gradient(68% 66% at 2% 84%, rgba(79,70,229,0.7), rgba(79,70,229,0) 66%),
-    radial-gradient(64% 60% at 82% 100%, rgba(192,38,211,0.56), rgba(192,38,211,0) 64%),
-    radial-gradient(42% 42% at 28% 56%, rgba(34,211,238,0.16), rgba(34,211,238,0) 60%),
-    radial-gradient(82% 72% at 52% 44%, rgba(124,58,237,0.3), rgba(124,58,237,0) 70%),
-    linear-gradient(155deg, #1b1140 0%, #140a30 46%, #1c0f3e 73%, #110826 100%);
+    radial-gradient(68% 62% at 8% 4%, rgba(124,58,237,0.92), rgba(124,58,237,0) 62%),
+    radial-gradient(60% 58% at 78% 2%, rgba(232,58,233,0.82), rgba(232,58,233,0) 60%),
+    radial-gradient(54% 56% at 92% 52%, rgba(244,114,182,0.66), rgba(244,114,182,0) 56%),
+    radial-gradient(64% 64% at 10% 80%, rgba(59,91,235,0.78), rgba(59,91,235,0) 62%),
+    radial-gradient(70% 62% at 58% 102%, rgba(192,38,211,0.6), rgba(192,38,211,0) 62%),
+    radial-gradient(46% 46% at 32% 48%, rgba(34,211,238,0.2), rgba(34,211,238,0) 56%),
+    radial-gradient(60% 56% at 52% 40%, rgba(168,85,247,0.34), rgba(168,85,247,0) 64%),
+    linear-gradient(155deg, #1d1246 0%, #160b34 46%, #1f1346 73%, #120828 100%);
 }
 .gk-orb { position: absolute; border-radius: 50%; filter: blur(72px); mix-blend-mode: screen; will-change: transform; backface-visibility: hidden; }
 .gk-grid {
@@ -82,7 +82,7 @@ html, body {
 /* soft legibility scrim: gentle, mostly at top/bottom edges, keeps the
    mid-canvas color vivid while giving text headroom (cards are opaque). */
 .gk-veil { position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(180deg, rgba(10,5,22,0.32) 0%, rgba(10,5,22,0.1) 20%, rgba(10,5,22,0.06) 50%, rgba(10,5,22,0.14) 80%, rgba(10,5,22,0.36) 100%);
+  background: linear-gradient(180deg, rgba(10,5,22,0.26) 0%, rgba(10,5,22,0.06) 22%, rgba(10,5,22,0.02) 50%, rgba(10,5,22,0.08) 80%, rgba(10,5,22,0.3) 100%);
 }
 
 @keyframes gk-d1 { to { transform: translate3d(-64px, 52px, 0) scale(1.12); } }
