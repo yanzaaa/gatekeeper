@@ -5,10 +5,10 @@ import { Canvas, useFrame } from "@react-three/fiber";
 import * as THREE from "three";
 
 // Gatekeeper, visualized: requests stream toward a gate. Routine ones pop and
-// pass straight through (mint). Risky ones slam to a stop at the gate, flash and
-// pulse amber while the gate flares, then get bounced back and cleared. The
-// "it blocks the risky ones" idea is the whole animation.
-const COUNT = 24;
+// pass straight through (mint). Risky ones slam to a stop at the gate, swell and
+// pulse amber while the gate flares and fires an amber shockwave ring, then get
+// bounced back and cleared. "It blocks the risky ones" IS the animation.
+const COUNT = 26;
 const C_PASS = new THREE.Color("#4ee6b0");
 const C_BLOCK = new THREE.Color("#ffb020");
 
@@ -17,11 +17,11 @@ type Token = { x: number; y: number; z: number; speed: number; risky: boolean; p
 
 function spawn(fresh: boolean): Token {
   return {
-    x: (Math.random() - 0.5) * 0.7,
-    y: (Math.random() - 0.5) * 0.7,
+    x: (Math.random() - 0.5) * 0.66,
+    y: (Math.random() - 0.5) * 0.66,
     z: fresh ? -7 - Math.random() * 3 : -3 - Math.random() * 7,
-    speed: 0.7 + Math.random() * 0.5,
-    risky: Math.random() < 0.3,
+    speed: 0.5 + Math.random() * 0.4,
+    risky: Math.random() < 0.42,
     phase: "flow",
     timer: 0,
     spin: Math.random() * Math.PI,
@@ -32,6 +32,8 @@ function GateScene() {
   const mesh = useRef<THREE.InstancedMesh>(null!);
   const gate = useRef<THREE.Group>(null!);
   const ringMat = useRef<THREE.MeshStandardMaterial>(null!);
+  const flare = useRef<THREE.Mesh>(null!);
+  const flareMat = useRef<THREE.MeshBasicMaterial>(null!);
   const dummy = useMemo(() => new THREE.Object3D(), []);
   const geo = useMemo(() => new THREE.BoxGeometry(1, 1, 1), []);
   const mat = useMemo(() => new THREE.MeshBasicMaterial({ toneMapped: false }), []);
@@ -54,23 +56,23 @@ function GateScene() {
         else if (t.z > 3.8) { t = tokens[i] = spawn(true); }
       } else if (t.phase === "blocked") {
         t.timer += dt; t.z = 0; blockEnergy += 1;
-        if (t.timer > 0.7) { t.phase = "bounce"; t.timer = 0; }
+        if (t.timer > 1.0) { t.phase = "bounce"; t.timer = 0; }
       } else {
-        t.timer += dt; t.z -= dt * 1.7; blockEnergy += 0.5;
-        if (t.z < -3.5) { t = tokens[i] = spawn(true); }
+        t.timer += dt; t.z -= dt * 1.4; blockEnergy += 0.4;
+        if (t.z < -3.2) { t = tokens[i] = spawn(true); }
       }
 
       let size: number;
       let color: THREE.Color;
       if (t.phase === "flow") {
-        const passing = !t.risky && t.z > -0.45 && t.z < 0.55;
-        size = 0.1 * (passing ? 1.6 : 1);
+        const passing = !t.risky && t.z > -0.5 && t.z < 0.6;
+        size = 0.11 * (passing ? 1.7 : 1);
         color = C_PASS;
       } else if (t.phase === "blocked") {
-        size = 0.15 * (1 + Math.sin(time * 16) * 0.32);
+        size = 0.2 * (1 + Math.sin(time * 14) * 0.4);
         color = C_BLOCK;
       } else {
-        size = 0.15 * Math.max(0, 1 - t.timer * 0.7);
+        size = 0.2 * Math.max(0, 1 - t.timer * 0.6);
         color = C_BLOCK;
       }
 
@@ -85,12 +87,18 @@ function GateScene() {
     mesh.current.instanceMatrix.needsUpdate = true;
     if (mesh.current.instanceColor) mesh.current.instanceColor.needsUpdate = true;
 
-    // the gate flares amber while it is actively blocking
+    const k = Math.min(1, blockEnergy / 1.5);
+    // the gate ring flares amber while actively blocking
     if (ringMat.current) {
-      const k = Math.min(1, blockEnergy / 2);
-      tmp.copy(VIOLET).lerp(AMBER, k * 0.85);
+      tmp.copy(VIOLET).lerp(AMBER, k * 0.9);
       ringMat.current.emissive.copy(tmp);
-      ringMat.current.emissiveIntensity = 0.7 + k * 0.9;
+      ringMat.current.emissiveIntensity = 0.7 + k * 1.1;
+    }
+    // amber shockwave ring expands + glows when blocking
+    if (flare.current && flareMat.current) {
+      flareMat.current.opacity = k * 0.85;
+      const s = 1 + k * 0.28 + Math.sin(time * 9) * 0.05 * k;
+      flare.current.scale.set(s, s, s);
     }
     if (gate.current) {
       gate.current.rotation.z += dt * 0.1;
@@ -104,6 +112,11 @@ function GateScene() {
         <mesh>
           <torusGeometry args={[1.15, 0.07, 24, 96]} />
           <meshStandardMaterial ref={ringMat} color="#7c3aed" emissive="#a78bfa" emissiveIntensity={0.7} metalness={0.45} roughness={0.25} />
+        </mesh>
+        {/* amber shockwave ring (fires on block) */}
+        <mesh ref={flare}>
+          <torusGeometry args={[1.15, 0.03, 12, 96]} />
+          <meshBasicMaterial ref={flareMat} color="#ffb020" transparent opacity={0} toneMapped={false} />
         </mesh>
         <mesh>
           <torusGeometry args={[1.42, 0.012, 10, 96]} />
