@@ -158,6 +158,7 @@ export default function Page() {
 
   return (
     <main className="max-w-[1120px] mx-auto px-6 py-20 md:py-28">
+      <LiveBadge engine={engine} />
       {/* Hero */}
       <div className="relative">
       <div className="pointer-events-none absolute right-[-90px] top-[-140px] hidden md:block w-[380px] h-[380px] lg:w-[460px] lg:h-[460px] z-0 opacity-[0.92]" aria-hidden>
@@ -312,6 +313,46 @@ function Stat({ n, label, color, i }: { n: number; label: string; color: string;
     >
       <div className="gk-num text-[40px] font-extrabold leading-none" style={{ color }}><CountUp n={n} /></div>
       <div className="text-[12.5px] text-[var(--mut)] mt-2">{label}</div>
+    </motion.div>
+  );
+}
+
+// Top-corner indicator of whether the last triage ran on live Qwen Cloud or the
+// deterministic key-free fallback. Driven by `decision.engine` from /api/triage.
+// Reads clearly on a screen recording: green pulse for live, amber for fallback.
+function LiveBadge({ engine }: { engine?: string }) {
+  const mode = engine === "qwen" ? "live" : engine === "fallback" ? "fallback" : "idle";
+  const label =
+    mode === "live" ? "LIVE: Qwen Cloud" : mode === "fallback" ? "FALLBACK MODE" : "Qwen Cloud · idle";
+  const glyph = mode === "live" ? "●" : mode === "fallback" ? "◐" : "○";
+  return (
+    <motion.div
+      key={mode}
+      initial={{ opacity: 0, y: -8 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.4, ease: EASE }}
+      className="gk-livebadge"
+      data-mode={mode}
+      role="status"
+      aria-live="polite"
+      aria-label={
+        mode === "live"
+          ? "Live: last decision came from a real Qwen Cloud API call"
+          : mode === "fallback"
+            ? "Fallback mode: last decision came from the deterministic fallback"
+            : "Idle: run the queue to call Qwen Cloud"
+      }
+      title={
+        mode === "live"
+          ? "A real Qwen Cloud (DashScope) API call just succeeded."
+          : mode === "fallback"
+            ? "No API key or the API was unavailable — the deterministic fallback ran."
+            : "Run Gatekeeper to make a live Qwen Cloud call."
+      }
+    >
+      <span className="lbdot" />
+      <span aria-hidden className="gk-num">{glyph}</span>
+      <span>{label}</span>
     </motion.div>
   );
 }

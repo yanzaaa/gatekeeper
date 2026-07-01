@@ -3,7 +3,7 @@
 **Name:** Gatekeeper
 **Tagline:** The refund autopilot that knows when to stop. An autonomous triage agent on Qwen that clears the routine cases and refuses to act on the risky ones.
 **Track:** Autopilot Agent
-**Built with:** Qwen, Qwen Cloud, Next.js, TypeScript, React, Tailwind, OpenAI-compatible API, Claude Code
+**Built with:** Qwen, Qwen Cloud, DashScope, Next.js, TypeScript, React, Tailwind, Vercel, OpenAI-compatible API, Claude Code
 
 ---
 
@@ -19,6 +19,15 @@ You give Gatekeeper a queue of refund requests, each with the amount, item condi
 - Risky or uncertain cases (high value, possible serial refunder, a stated reason that conflicts with the item, ambiguous policy, low confidence) are refused and escalated to a human, with the reasoning and the risk flags attached.
 
 A person only ever looks at the escalation queue. Everything else is resolved automatically.
+
+## How this differs from Quorum (my other submission)
+
+Gatekeeper and Quorum are two of my submissions to this hackathon, and they deliberately share one idea: a **safety primitive** — a deterministic, one-way ratchet layered on top of the model that can only ever make an agent's decision *safer*, never less safe. What makes them two substantially different projects is that they validate that primitive across two completely different agent architectures.
+
+- **Gatekeeper (Track 4, Autopilot Agent — this entry)** is a **single tool-calling agent** doing real-time refund triage. One Qwen agent, one enforced `assess_customer_risk` function call, one deterministic guardrail, a decision in a single pass. The primitive shows up as the restraint guardrail that forces an escalation on any risky case.
+- **Quorum (Track 3, Agent Society)** is a **three-agent deliberative council** (Proposer, Skeptic, Referee) that reaches a decision through multi-agent debate, measures itself against a lone-agent baseline, and is itself callable by other agents over MCP. The same "can only get safer" ratchet governs how the council's verdict is allowed to move.
+
+Different problem, different architecture, different Qwen surface — a forced tool call here, multi-agent MCP orchestration there. One idea, two independent proofs that it generalizes. If you have looked at Quorum: this is not that project with a new coat of paint. It is the other half of the argument.
 
 ## How we built it
 
@@ -37,7 +46,7 @@ It is a coded agent, and I built the whole thing solo with Claude Code.
 
 ## Accomplishments that we're proud of
 
-- The guardrail demonstrably catches a confidently-wrong auto-action: on a 1,240 dollar TV, Qwen returned approve at 90 percent confidence, and Gatekeeper held it back and escalated it instead. That moment is visible right in the UI.
+- The guardrail demonstrably catches a confidently-wrong auto-action: on a 1,240 dollar TV, Qwen returned approve with high confidence (95 percent in the recorded demo run; the committed deterministic benchmark, `public/benchmark.json`, pins the same hold-back at 0.90 — the exact figure varies run to run, the hold-back never does), and Gatekeeper escalated it instead. That moment is visible right in the UI.
 - A real, working, deployed coded agent on Qwen with a clean dashboard, built solo in a single build session.
 - Honest engineering: a deterministic fallback so the demo is crash-proof, and the restraint logic is transparent and auditable.
 
@@ -48,6 +57,6 @@ It is a coded agent, and I built the whole thing solo with Claude Code.
 
 ## What's next for Gatekeeper
 
-- Wire it to a real commerce or ticketing backend (Shopify, Zendesk) and act on the approvals.
+- Wire a side-effecting write integration to a real commerce or ticketing backend (Shopify, Zendesk) to execute the approvals. That is intentionally out of scope for this submission — Gatekeeper's contribution is the trustworthy decision, and acting on it is the deliberate next step, not a missing piece.
 - Learn the escalation thresholds from human overrides over time.
 - Add a second judgment category for chargebacks and disputes.

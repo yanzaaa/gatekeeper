@@ -1,0 +1,104 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1080 560" font-family="-apple-system,Segoe UI,Roboto,Helvetica,Arial,sans-serif">
+  <defs>
+    <marker id="arr" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#3ddc97"/>
+    </marker>
+    <marker id="arrb" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0 0L10 5L0 10z" fill="#37b0ff"/>
+    </marker>
+    <style>
+      .box{fill:#11151d;stroke:#222a36;stroke-width:1.5}
+      .t{fill:#eef2f7;font-weight:700}
+      .s{fill:#8b97a8;font-size:12.5px}
+      .k{fill:#3ddc97;font-size:12px;font-weight:800;letter-spacing:.12em}
+      .mono{font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
+      .ln{stroke:#3ddc97;stroke-width:2;fill:none;marker-end:url(#arr)}
+      .lnb{stroke:#37b0ff;stroke-width:2;fill:none;marker-end:url(#arrb)}
+      .lbl{fill:#6f7b8c;font-size:11px;font-weight:700;letter-spacing:.04em}
+    </style>
+  </defs>
+
+  <rect width="1080" height="560" fill="#0b0e14"/>
+  <text x="44" y="46" class="k">GATEKEEPER · SYSTEM ARCHITECTURE</text>
+  <text x="44" y="74" class="t" font-size="24">Stateless request path: browser to Qwen Cloud and back</text>
+
+  <!-- Browser -->
+  <rect class="box" x="44" y="120" width="212" height="150" rx="14"/>
+  <text x="64" y="150" class="t" font-size="16">Browser</text>
+  <text x="64" y="174" class="s">Next.js UI (App Router,</text>
+  <text x="64" y="193" class="s">React, Tailwind).</text>
+  <text x="64" y="217" class="s">Renders the queue and</text>
+  <text x="64" y="236" class="s">posts each refund request</text>
+  <text x="64" y="255" class="s">to the triage route.</text>
+
+  <!-- Vercel / API route -->
+  <rect class="box" x="316" y="120" width="230" height="150" rx="14"/>
+  <text x="336" y="150" class="t" font-size="16">Vercel</text>
+  <text x="336" y="174" class="s">App Router + serverless</text>
+  <text x="336" y="193" class="s mono" fill="#cdd6e3">POST /api/triage</text>
+  <text x="336" y="217" class="s">Node runtime. Calls the</text>
+  <text x="336" y="236" class="s mono" fill="#cdd6e3">triage()</text>
+  <text x="406" y="236" class="s">agent loop.</text>
+  <text x="336" y="255" class="s">No database · stateless.</text>
+
+  <!-- DashScope / Qwen -->
+  <rect x="606" y="120" width="250" height="150" rx="14" fill="#11151d" stroke="#37b0ff" stroke-width="1.5"/>
+  <text x="626" y="150" class="t" font-size="16" fill="#37b0ff">Qwen Cloud (DashScope)</text>
+  <text x="626" y="173" class="s mono" fill="#cdd6e3">dashscope-intl.aliyuncs.com</text>
+  <text x="626" y="191" class="s mono" fill="#cdd6e3">/compatible-mode/v1</text>
+  <text x="626" y="214" class="s">OpenAI-compatible chat.</text>
+  <text x="626" y="233" class="s mono" fill="#cdd6e3">qwen-max</text>
+  <text x="710" y="233" class="s">· tool call:</text>
+  <text x="626" y="252" class="s mono" fill="#3ddc97">assess_customer_risk</text>
+
+  <!-- Guardrail -->
+  <rect x="606" y="330" width="250" height="150" rx="14" fill="#11151d" stroke="#f5b94a" stroke-width="1.5"/>
+  <text x="626" y="360" class="t" font-size="16" fill="#f5b94a">Restraint guardrail</text>
+  <text x="626" y="383" class="s mono" fill="#cdd6e3">lib/policy.ts</text>
+  <text x="626" y="406" class="s">Deterministic, in-process.</text>
+  <text x="626" y="425" class="s">Overrides the model to</text>
+  <text x="626" y="444" class="s">ESCALATE on high-value,</text>
+  <text x="626" y="463" class="s">low-confidence, or risk flag.</text>
+
+  <!-- UI result -->
+  <rect class="box" x="316" y="330" width="230" height="150" rx="14" stroke="#3ddc97"/>
+  <text x="336" y="360" class="t" font-size="16" fill="#3ddc97">Decision → UI</text>
+  <text x="336" y="384" class="s">JSON decision card:</text>
+  <text x="336" y="403" class="s">action · confidence ·</text>
+  <text x="336" y="422" class="s">reasoning · risk flags ·</text>
+  <text x="336" y="441" class="s">held-back · tool used.</text>
+  <text x="336" y="463" class="s">Rendered back in browser.</text>
+
+  <!-- Fallback note -->
+  <rect class="box" x="44" y="330" width="212" height="150" rx="14" stroke="#2a3340"/>
+  <text x="64" y="360" class="t" font-size="15">Key-free fallback</text>
+  <text x="64" y="383" class="s">If no DASHSCOPE key</text>
+  <text x="64" y="402" class="s">or the API is down,</text>
+  <text x="64" y="421" class="s mono" fill="#cdd6e3">fallbackTriage()</text>
+  <text x="64" y="440" class="s">runs the same policy +</text>
+  <text x="64" y="459" class="s">guardrail deterministically.</text>
+
+  <!-- arrows: browser -> vercel -> qwen -->
+  <path class="ln" d="M256 178 L312 178"/>
+  <text x="266" y="168" class="lbl">POST</text>
+  <path class="lnb" d="M546 178 L602 178"/>
+  <text x="552" y="168" class="lbl">chat +</text>
+  <text x="552" y="200" class="lbl">tool</text>
+
+  <!-- qwen -> guardrail (down) -->
+  <path class="ln" d="M731 270 L731 326"/>
+  <text x="742" y="303" class="lbl">raw action</text>
+
+  <!-- guardrail -> UI result -->
+  <path class="ln" d="M606 405 L550 405"/>
+  <text x="556" y="395" class="lbl">final</text>
+
+  <!-- UI result -> browser (up, returns response) -->
+  <path class="ln" d="M431 330 L431 274"/>
+  <text x="442" y="307" class="lbl">JSON response</text>
+
+  <!-- fallback -> vercel (feeds the same route when key absent) -->
+  <path class="ln" stroke-dasharray="5 5" d="M256 380 Q300 380 320 300 L328 274"/>
+
+  <text x="44" y="518" class="s" font-size="14" fill="#dbe3ee">Every request is independent — no session, no stored state. Qwen reasons; <tspan class="mono" fill="#f5b94a">lib/policy.ts</tspan> has the final say before anything reaches the UI.</text>
+</svg>

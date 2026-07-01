@@ -203,6 +203,27 @@ html, body {
 .spin { width: 16px; height: 16px; border: 2px solid var(--hair); border-top-color: var(--acc); border-radius: 50%; animation: gkspin 0.7s linear infinite; }
 @keyframes gkspin { to { transform: rotate(360deg); } }
 
+/* ---------- live / fallback mode badge (top-right, always visible) ---------- */
+.gk-livebadge {
+  position: fixed; top: 16px; right: 16px; z-index: 80;
+  display: inline-flex; align-items: center; gap: 8px;
+  border-radius: 999px; padding: 8px 15px 8px 12px;
+  font-size: 12.5px; font-weight: 700; letter-spacing: 0.02em;
+  border: 1px solid var(--hair); background: rgba(10, 6, 22, 0.78);
+  color: #dfe3ee; backdrop-filter: blur(8px);
+  box-shadow: 0 10px 30px -14px rgba(0, 0, 0, 0.8), inset 0 1px 0 rgba(255, 255, 255, 0.06);
+  transition: border-color 0.4s var(--ease), color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+}
+.gk-livebadge .lbdot { width: 9px; height: 9px; border-radius: 50%; background: var(--mut); flex-shrink: 0; transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease); }
+/* live: a real Qwen Cloud call just succeeded */
+.gk-livebadge[data-mode="live"] { color: var(--approve); border-color: rgba(67, 229, 160, 0.5); box-shadow: 0 10px 34px -12px rgba(67, 229, 160, 0.4), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.gk-livebadge[data-mode="live"] .lbdot { background: var(--approve); box-shadow: 0 0 0 0 rgba(67, 229, 160, 0.6); animation: gk-live 2s ease-in-out infinite; }
+/* fallback: the deterministic path ran */
+.gk-livebadge[data-mode="fallback"] { color: var(--amber); border-color: rgba(246, 192, 101, 0.5); box-shadow: 0 10px 34px -12px rgba(246, 192, 101, 0.36), inset 0 1px 0 rgba(255, 255, 255, 0.06); }
+.gk-livebadge[data-mode="fallback"] .lbdot { background: var(--amber); box-shadow: 0 0 10px rgba(246, 192, 101, 0.6); }
+@keyframes gk-live { 0% { box-shadow: 0 0 0 0 rgba(67, 229, 160, 0.55); } 70% { box-shadow: 0 0 0 8px rgba(67, 229, 160, 0); } 100% { box-shadow: 0 0 0 0 rgba(67, 229, 160, 0); } }
+@media (max-width: 520px) { .gk-livebadge { top: 12px; right: 12px; padding: 7px 12px 7px 10px; font-size: 11.5px; } }
+
 @media (prefers-reduced-motion: reduce) {
   *, .gk-orb, .gk-aurora { animation: none !important; transition: none !important; }
   .gk-aurora.r1 { transform: rotate(-18deg) translate3d(3%, 2%, 0) scale(1.06); }
